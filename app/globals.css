@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Editorial-warm defaults. The CustomizeProvider rewrites these at
+     runtime when the user picks a different theme. */
+  --accent-rgb: 199 93 62;
+  --bg-rgb: 245 240 232;
+  --bg-50-rgb: 251 248 242;
+  --ink-rgb: 26 22 18;
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+}
+
+html,
+body {
+  height: 100%;
+  background: rgb(var(--bg-rgb));
+  color: rgb(var(--ink-rgb));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "ss02", "cv11";
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: rgb(var(--accent-rgb));
+  color: rgb(var(--bg-50-rgb));
+}
+
+.display {
+  font-family: var(--font-display), Georgia, serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+.deck-rule {
+  background-image: linear-gradient(to right, currentColor 50%, transparent 0);
+  background-size: 6px 1px;
+  background-repeat: repeat-x;
+}
