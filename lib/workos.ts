@@ -10,7 +10,7 @@ const TEMPLATE_URL = process.env.NEXT_PUBLIC_TEMPLATE_URL ?? "https://template01
  */
 export function buildSignInRedirect(returnPathname: string): string {
   const returnTo = `${TEMPLATE_URL}${returnPathname.startsWith("/") ? returnPathname : `/${returnPathname}`}`;
-  return `${MAIN_APP_URL}/login?return_to=${encodeURIComponent(returnTo)}`;
+  return `${MAIN_APP_URL}/sign-in?returnTo=${encodeURIComponent(returnTo)}`;
 }
 
 /**
