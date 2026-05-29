@@ -3,7 +3,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 
 const PRODUCT_URL =
   process.env.NEXT_PUBLIC_TEMPLATE_PRODUCT_URL ??
-  "https://luistchitue.com/templates/template-01";
+  "https://www.luistchitue.com/pricing";
 
 export function Paywall({ userEmail }: { userEmail?: string | null }) {
   return (
