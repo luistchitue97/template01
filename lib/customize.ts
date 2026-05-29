@@ -275,7 +275,7 @@ export function loadConfig(): CustomizeConfig {
   }
 }
 
-function mergeSlides(saved: Partial<SlidesConfig> | undefined): SlidesConfig {
+export function mergeSlides(saved: Partial<SlidesConfig> | undefined): SlidesConfig {
   const d = DEFAULT_CONFIG.slides;
   if (!saved) return d;
   return {
