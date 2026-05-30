@@ -37,12 +37,12 @@ function SlideContent() {
               <div data-draw className="mb-6 h-px w-full bg-ink/15" />
               <div className="flex items-baseline justify-between">
                 <span data-pop className="display text-terracotta-300 text-[64px] leading-none">{p.roman}</span>
-                <span data-anim className="text-[11px] uppercase tracking-[0.22em] text-ink/45">Pillar</span>
+                <span data-anim className="text-[14px] uppercase tracking-[0.22em] text-ink/45">Pillar</span>
               </div>
               <h3 data-anim className="mt-4 display text-[34px] leading-none text-ink">{p.name}.</h3>
-              <p data-anim className="mt-3 text-[16px] leading-snug text-ink/65">{p.promise}</p>
-              <p data-anim className="mt-5 text-[14px] leading-relaxed text-ink/70">{p.body}</p>
-              <ul className="mt-6 space-y-1.5 text-[12.5px] tnum text-ink/75">
+              <p data-anim className="mt-3 text-[20px] leading-snug text-ink/65">{p.promise}</p>
+              <p data-anim className="mt-5 text-[18px] leading-relaxed text-ink/70">{p.body}</p>
+              <ul className="mt-6 space-y-1.5 text-[20px] tnum text-ink/75">
                 {p.metrics.map((m) => (
                   <li key={m} className="flex items-center gap-3">
                     <span data-grow-x className="inline-block h-px w-3 bg-terracotta-300" />

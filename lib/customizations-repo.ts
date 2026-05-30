@@ -1,5 +1,6 @@
 import { sql } from "./neon";
 import type { CustomizeConfig } from "./customize";
+import { normalizeConfig } from "./customize-schema";
 
 const TEMPLATE_ID = "template-01";
 
@@ -10,8 +11,12 @@ export async function getCustomization(workosUserId: string): Promise<CustomizeC
      WHERE user_id = ${workosUserId}
        AND template_id    = ${TEMPLATE_ID}
      LIMIT 1
-  `) as unknown as Array<{ config: CustomizeConfig }>;
-  return rows[0]?.config ?? null;
+  `) as unknown as Array<{ config: unknown }>;
+  const raw = rows[0]?.config;
+  if (raw == null) return null;
+  // Normalize so older DB rows missing newer top-level slices (e.g. typography)
+  // get defaulted instead of leaving fields undefined for the renderer.
+  return normalizeConfig(raw);
 }
 
 export async function saveCustomization(

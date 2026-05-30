@@ -276,6 +276,45 @@ function IconBtn({
   );
 }
 
+// ── SCALE FIELD (slider for fine-grained scale values) ───────────────────
+
+export function ScaleField({
+  value,
+  onChange,
+  min,
+  max,
+  step,
+}: {
+  value: number;
+  onChange: (n: number) => void;
+  min: number;
+  max: number;
+  step: number;
+}) {
+  const pct = Math.round(value * 100);
+  return (
+    <div className="flex items-center gap-4">
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.valueAsNumber))}
+        className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-ink/15 accent-terracotta-300"
+      />
+      <span className="tnum w-[52px] text-right text-[12px] text-ink/65">{pct}%</span>
+      <button
+        type="button"
+        onClick={() => onChange(1)}
+        className="text-[10px] uppercase tracking-[0.22em] text-ink/45 underline-offset-4 transition hover:text-terracotta-300 hover:underline"
+      >
+        Reset
+      </button>
+    </div>
+  );
+}
+
 // ── COUNT SPEC EDITOR ─────────────────────────────────────────────────────
 
 export type CountSpecLike = {

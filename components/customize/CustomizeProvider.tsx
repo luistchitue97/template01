@@ -19,6 +19,7 @@ import {
   type IdentityConfig,
   type SlidesConfig,
   type ThemeConfig,
+  type TypographyConfig,
   loadConfig,
   saveConfig,
 } from "@/lib/customize";
@@ -26,6 +27,7 @@ import {
 type ConfigPatch = {
   theme?: Partial<ThemeConfig>;
   identity?: Partial<IdentityConfig>;
+  typography?: Partial<TypographyConfig>;
   slides?: Partial<SlidesConfig>;
 };
 
@@ -52,10 +54,10 @@ export function useCustomize(): Ctx {
   return ctx;
 }
 
-function applyThemeToDOM(cfg: CustomizeConfig) {
+function applyConfigToDOM(cfg: CustomizeConfig) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
-  const { theme } = cfg;
+  const { theme, typography } = cfg;
 
   const tone = BACKGROUND_TONES[theme.backgroundTone] ?? BACKGROUND_TONES.cream;
   root.style.setProperty("--accent-rgb", theme.accentRgb);
@@ -67,6 +69,12 @@ function applyThemeToDOM(cfg: CustomizeConfig) {
   const sansVar    = SANS_FONTS[theme.sansFont]?.cssVar       ?? "var(--font-inter)";
   root.style.setProperty("--font-display", displayVar);
   root.style.setProperty("--font-sans", sansVar);
+
+  root.style.setProperty("--scale-display",  String(typography.scaleDisplay));
+  root.style.setProperty("--scale-title",    String(typography.scaleTitle));
+  root.style.setProperty("--scale-subtitle", String(typography.scaleSubtitle));
+  root.style.setProperty("--scale-body",     String(typography.scaleBody));
+  root.style.setProperty("--scale-label",    String(typography.scaleLabel));
 }
 
 const SAVE_DEBOUNCE_MS = 700;
@@ -97,12 +105,12 @@ export function CustomizeProvider({
   // the initial config already matches both SSR and first client paint.
   useEffect(() => {
     if (serverBacked) {
-      applyThemeToDOM(initialServerConfig as CustomizeConfig);
+      applyConfigToDOM(initialServerConfig as CustomizeConfig);
       return;
     }
     const loaded = loadConfig();
     setConfig(loaded);
-    applyThemeToDOM(loaded);
+    applyConfigToDOM(loaded);
     setHydrated(true);
   }, [serverBacked, initialServerConfig]);
 
@@ -151,9 +159,10 @@ export function CustomizeProvider({
       const next: CustomizeConfig = {
         theme: { ...prev.theme, ...(patch.theme ?? {}) },
         identity: { ...prev.identity, ...(patch.identity ?? {}) },
+        typography: { ...prev.typography, ...(patch.typography ?? {}) },
         slides: { ...prev.slides, ...(patch.slides ?? {}) },
       };
-      applyThemeToDOM(next);
+      applyConfigToDOM(next);
       if (serverBacked) persistServer(next);
       else saveConfig(next);
       return next;
@@ -162,7 +171,7 @@ export function CustomizeProvider({
 
   const reset = useCallback(() => {
     setConfig(DEFAULT_CONFIG);
-    applyThemeToDOM(DEFAULT_CONFIG);
+    applyConfigToDOM(DEFAULT_CONFIG);
     if (serverBacked) persistServer(DEFAULT_CONFIG);
     else saveConfig(DEFAULT_CONFIG);
   }, [serverBacked, persistServer]);

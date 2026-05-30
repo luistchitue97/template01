@@ -37,10 +37,10 @@ export function Stat({
 
   return (
     <div className={cn("flex flex-col gap-1", className)}>
-      <span className="text-[10px] uppercase tracking-[0.2em] text-ink/55">{label}</span>
+      <span className="text-[calc(13px*var(--scale-label))] uppercase tracking-[0.2em] text-ink/55">{label}</span>
       {count ? (
         <span
-          className="display text-[44px] leading-none text-ink tnum"
+          className="display text-[calc(44px*var(--scale-title))] leading-none text-ink tnum"
           data-count={String(count.to)}
           data-prefix={count.prefix ?? ""}
           data-suffix={count.suffix ?? ""}
@@ -49,9 +49,9 @@ export function Stat({
           {initialText}
         </span>
       ) : (
-        <span className="display text-[44px] leading-none text-ink tnum">{value}</span>
+        <span className="display text-[calc(44px*var(--scale-title))] leading-none text-ink tnum">{value}</span>
       )}
-      {delta ? <span className={cn("text-[11px] tnum", toneClass)}>{delta}</span> : null}
+      {delta ? <span className={cn("text-[calc(14px*var(--scale-label))] tnum", toneClass)}>{delta}</span> : null}
     </div>
   );
 }

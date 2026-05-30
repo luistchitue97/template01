@@ -12,6 +12,15 @@
 
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-inter);
+
+  /* Typography scale multipliers — overridden at runtime by CustomizeProvider.
+     Used inside text-[calc(Npx*var(--scale-X))] Tailwind arbitrary values
+     so each text category can be independently sized. */
+  --scale-display: 1;
+  --scale-title: 1;
+  --scale-subtitle: 1;
+  --scale-body: 1;
+  --scale-label: 1;
 }
 
 html,

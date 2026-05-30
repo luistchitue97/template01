@@ -74,7 +74,7 @@ function SlideContent() {
               data-anim
               className="flex flex-col gap-3 bg-cream-50 p-6"
             >
-              <span className="text-[10.5px] uppercase tracking-[0.22em] text-ink/55">{k.label}</span>
+              <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">{k.label}</span>
               <div className="flex items-baseline justify-between">
                 <span
                   className="display text-[40px] leading-none text-ink tnum"
@@ -85,7 +85,7 @@ function SlideContent() {
                 >
                   {k.value}
                 </span>
-                <span className="text-[11px] tnum text-terracotta-300">{k.target}</span>
+                <span className="text-[14px] tnum text-terracotta-300">{k.target}</span>
               </div>
               <Spark series={k.series} tone={k.tone} />
             </div>

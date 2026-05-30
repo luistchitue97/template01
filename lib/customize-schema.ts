@@ -10,10 +10,11 @@ const SliceSchema = z.record(z.string(), z.unknown());
 
 export const CustomizeConfigInputSchema = z
   .object({
-    theme:    SliceSchema.optional(),
-    identity: SliceSchema.optional(),
-    slices:   SliceSchema.optional(),  // tolerated typo guard, ignored
-    slides:   SliceSchema.optional(),
+    theme:      SliceSchema.optional(),
+    identity:   SliceSchema.optional(),
+    typography: SliceSchema.optional(),
+    slices:     SliceSchema.optional(),  // tolerated typo guard, ignored
+    slides:     SliceSchema.optional(),
   })
   .passthrough();
 
@@ -22,8 +23,9 @@ export const MAX_CONFIG_BYTES = 200_000; // 200 KB cap on a single config blob
 export function normalizeConfig(parsed: unknown): CustomizeConfig {
   const p = (parsed ?? {}) as Partial<CustomizeConfig>;
   return {
-    theme:    { ...DEFAULT_CONFIG.theme,    ...(p.theme    ?? {}) },
-    identity: { ...DEFAULT_CONFIG.identity, ...(p.identity ?? {}) },
-    slides:   mergeSlides(p.slides),
+    theme:      { ...DEFAULT_CONFIG.theme,      ...(p.theme ?? {}) },
+    identity:   { ...DEFAULT_CONFIG.identity,   ...(p.identity ?? {}) },
+    typography: { ...DEFAULT_CONFIG.typography, ...(p.typography ?? {}) },
+    slides:     mergeSlides(p.slides),
   };
 }

@@ -16,10 +16,10 @@ export function SlideHeader({
   return (
     <header className="flex flex-col gap-5">
       <div className="flex items-baseline gap-4">
-        <span className="display text-terracotta-300 text-[18px] leading-none tnum">{number}</span>
+        <span className="display text-terracotta-300 text-[calc(18px*var(--scale-label))] leading-none tnum">{number}</span>
         <Eyebrow>{kicker}</Eyebrow>
       </div>
-      <h2 className="display whitespace-pre-line text-[88px] leading-[0.95] tracking-tightest-display text-ink">
+      <h2 className="display whitespace-pre-line text-[calc(88px*var(--scale-display))] leading-[0.95] tracking-tightest-display text-ink">
         {title}
         {titleAccent ? (
           <>
@@ -29,7 +29,7 @@ export function SlideHeader({
         ) : null}
       </h2>
       {subtitle ? (
-        <p className="max-w-[60ch] text-[18px] leading-snug text-ink/70">{subtitle}</p>
+        <p className="max-w-[60ch] text-[calc(22px*var(--scale-subtitle))] leading-snug text-ink/70">{subtitle}</p>
       ) : null}
     </header>
   );

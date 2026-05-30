@@ -45,8 +45,8 @@ function BarChartCard({ data }: { data: Financials }) {
   return (
     <div data-anim className="relative border border-ink/15 bg-cream-50/60 p-5">
       <div className="flex items-baseline justify-between">
-        <span className="text-[11px] uppercase tracking-[0.22em] text-ink/55">Quarterly revenue &amp; cost</span>
-        <span className="text-[11px] uppercase tracking-[0.22em] text-ink/45 tnum">$M</span>
+        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">Quarterly revenue &amp; cost</span>
+        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/45 tnum">$M</span>
       </div>
 
       <div className="relative mt-5 flex h-[220px] items-end gap-2">
@@ -74,13 +74,13 @@ function BarChartCard({ data }: { data: Financials }) {
                   style={{ height: `${(cost / max) * 100}%`, transformOrigin: "bottom center" }}
                 />
               </div>
-              <span className="text-[9.5px] tnum text-ink/55">{q}</span>
+              <span className="text-[13px] tnum text-ink/55">{q}</span>
             </div>
           );
         })}
       </div>
 
-      <div className="mt-4 flex items-center gap-4 text-[10px] uppercase tracking-[0.22em] text-ink/55">
+      <div className="mt-4 flex items-center gap-4 text-[13px] uppercase tracking-[0.22em] text-ink/55">
         <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 bg-ink/75" /> Actual rev.</span>
         <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 bg-terracotta-300" /> Plan rev.</span>
         <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 bg-ink/15" /> Cost</span>
@@ -119,8 +119,8 @@ function LineChartCard({ data }: { data: Financials }) {
   return (
     <div data-anim className="relative border border-ink/15 bg-cream-50/60 p-5">
       <div className="flex items-baseline justify-between">
-        <span className="text-[11px] uppercase tracking-[0.22em] text-ink/55">Margin trajectory</span>
-        <span className="text-[11px] uppercase tracking-[0.22em] text-ink/45 tnum">%</span>
+        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">Margin trajectory</span>
+        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/45 tnum">%</span>
       </div>
 
       <svg
@@ -155,7 +155,7 @@ function LineChartCard({ data }: { data: Financials }) {
         ))}
       </svg>
 
-      <div className="mt-1 flex items-center gap-4 text-[10px] uppercase tracking-[0.22em] text-ink/55">
+      <div className="mt-1 flex items-center gap-4 text-[13px] uppercase tracking-[0.22em] text-ink/55">
         <span className="flex items-center gap-2"><span className="inline-block h-[2px] w-4 bg-terracotta-300" /> Gross margin</span>
         <span className="flex items-center gap-2"><span className="inline-block h-[2px] w-4 bg-ink/85" /> FCF margin</span>
       </div>
@@ -173,13 +173,13 @@ function CompactPL({ data }: { data: Financials }) {
       >
         {data.plRows.map((r) => (
           <div key={r.label} data-anim className="flex flex-col gap-1.5">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-ink/55">{r.label}</span>
+            <span className="text-[13px] uppercase tracking-[0.2em] text-ink/55">{r.label}</span>
             <div className="flex items-baseline gap-2 tnum">
-              <span className="text-[11px] text-ink/45">{r.fy25}</span>
-              <span className="text-[12px] text-ink/30">→</span>
-              <span className="display text-[20px] leading-none text-ink">{r.fy26}</span>
+              <span className="text-[14px] text-ink/45">{r.fy25}</span>
+              <span className="text-[15px] text-ink/30">→</span>
+              <span className="display text-[24px] leading-none text-ink">{r.fy26}</span>
             </div>
-            <span className="text-[10.5px] tnum text-terracotta-300">{r.delta}</span>
+            <span className="text-[14px] tnum text-terracotta-300">{r.delta}</span>
           </div>
         ))}
       </div>

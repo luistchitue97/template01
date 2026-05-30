@@ -35,8 +35,8 @@ function SlideContent() {
           {/* Headcount */}
           <div>
             <div data-anim className="flex items-baseline justify-between">
-              <span className="text-[11px] uppercase tracking-[0.22em] text-ink/55">Headcount by function</span>
-              <span className="text-[11px] uppercase tracking-[0.22em] text-ink/45 tnum">{totalCurrent} → {totalNew}</span>
+              <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">Headcount by function</span>
+              <span className="text-[14px] uppercase tracking-[0.22em] text-ink/45 tnum">{totalCurrent} → {totalNew}</span>
             </div>
 
             <div className="mt-6 space-y-4">
@@ -44,7 +44,7 @@ function SlideContent() {
                 const total = h.current + h.add;
                 return (
                   <div key={h.fn}>
-                    <div data-anim className="flex items-baseline justify-between text-[13px]">
+                    <div data-anim className="flex items-baseline justify-between text-[17px]">
                       <span className="text-ink/85">{h.fn}</span>
                       <span className="tnum text-ink/55">
                         {h.current} <span className="text-terracotta-300">+{h.add}</span>
@@ -71,7 +71,7 @@ function SlideContent() {
           {/* Budget */}
           <div>
             <div data-anim className="flex items-baseline justify-between">
-              <span className="text-[11px] uppercase tracking-[0.22em] text-ink/55">FY26 budget — {data.budgetTotal}</span>
+              <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">FY26 budget — {data.budgetTotal}</span>
             </div>
 
             <div className="mt-6 flex h-10 w-full overflow-hidden rounded-full border border-ink/10">
@@ -86,7 +86,7 @@ function SlideContent() {
               ))}
             </div>
 
-            <ul className="mt-5 space-y-2.5 text-[13px]">
+            <ul className="mt-5 space-y-2.5 text-[17px]">
               {data.budget.map((b) => (
                 <li key={b.label} data-anim className="flex items-center justify-between">
                   <span className="flex items-center gap-3 text-ink/85">
@@ -100,7 +100,7 @@ function SlideContent() {
 
             <div className="mt-6 pt-4">
               <div data-draw className="mb-4 h-px w-full bg-ink/10" />
-              <p data-anim className="text-[13px] leading-relaxed text-ink/65">{data.note}</p>
+              <p data-anim className="text-[17px] leading-relaxed text-ink/65">{data.note}</p>
             </div>
           </div>
         </div>

@@ -19,6 +19,7 @@ import {
 } from "@/components/customize/SlideEditors";
 import {
   Row,
+  ScaleField,
   Section,
   TextField,
 } from "@/components/customize/widgets";
@@ -27,10 +28,12 @@ import {
   BACKGROUND_TONES,
   DISPLAY_FONTS,
   SANS_FONTS,
+  TYPOGRAPHY_BOUNDS,
   type BackgroundToneId,
   type DisplayFontId,
   type IdentityConfig,
   type SansFontId,
+  type TypographyConfig,
   hexToRgbTriplet,
   rgbTripletToHex,
 } from "@/lib/customize";
@@ -39,6 +42,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 
 const NAV: { id: string; label: string }[] = [
   { id: "theme",       label: "Theme" },
+  { id: "typography",  label: "Typography" },
   { id: "identity",    label: "Identity" },
   { id: "hero",        label: "Cover hero" },
   { id: "exec",        label: "02 · Exec summary" },
@@ -56,7 +60,7 @@ const NAV: { id: string; label: string }[] = [
 
 export function CustomizeClient() {
   const { config, update, reset, serverBacked } = useCustomize();
-  const { theme, identity } = config;
+  const { theme, identity, typography } = config;
 
   return (
     <div className="mx-auto grid w-full max-w-[1280px] grid-cols-[220px_1fr] gap-10 px-8 pb-32 pt-12">
@@ -123,8 +127,16 @@ export function CustomizeClient() {
           </Row>
         </Section>
 
+        {/* Typography */}
+        <Section id="typography" number="02" title="Typography">
+          <TypographyScales
+            value={typography}
+            onChange={(patch) => update({ typography: patch })}
+          />
+        </Section>
+
         {/* Identity */}
-        <Section id="identity" number="02" title="Identity">
+        <Section id="identity" number="03" title="Identity">
           <IdentityFields
             value={identity}
             onChange={(patch) => update({ identity: patch })}
@@ -132,7 +144,7 @@ export function CustomizeClient() {
         </Section>
 
         {/* Cover hero */}
-        <Section id="hero" number="03" title="Cover hero">
+        <Section id="hero" number="04" title="Cover hero">
           <Row label="Line 1">
             <TextField
               value={identity.heroLineA}
@@ -406,6 +418,40 @@ function FontGroup({
           </button>
         );
       })}
+    </div>
+  );
+}
+
+// ── Typography scales ─────────────────────────────────────────────────────
+
+const SCALE_FIELDS: { key: keyof TypographyConfig; label: string; hint: string }[] = [
+  { key: "scaleDisplay",  label: "Display",  hint: "Hero / cover headlines" },
+  { key: "scaleTitle",    label: "Title",    hint: "Slide titles and h2-style headings" },
+  { key: "scaleSubtitle", label: "Subtitle", hint: "Lead paragraphs and slide subtitles" },
+  { key: "scaleBody",     label: "Body",     hint: "Paragraphs and list items" },
+  { key: "scaleLabel",    label: "Label",    hint: "Small uppercase tags and eyebrows" },
+];
+
+function TypographyScales({
+  value,
+  onChange,
+}: {
+  value: TypographyConfig;
+  onChange: (patch: Partial<TypographyConfig>) => void;
+}) {
+  return (
+    <div className="space-y-5">
+      {SCALE_FIELDS.map((f) => (
+        <Row key={f.key} label={f.label} hint={f.hint}>
+          <ScaleField
+            value={value[f.key]}
+            onChange={(n) => onChange({ [f.key]: n } as Partial<TypographyConfig>)}
+            min={TYPOGRAPHY_BOUNDS.min}
+            max={TYPOGRAPHY_BOUNDS.max}
+            step={TYPOGRAPHY_BOUNDS.step}
+          />
+        </Row>
+      ))}
     </div>
   );
 }

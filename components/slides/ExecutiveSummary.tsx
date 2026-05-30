@@ -55,8 +55,8 @@ function SlideContent() {
           {data.blurbs.map((b) => (
             <div key={b.heading} className="relative pl-5">
               <span data-grow-y className="absolute left-0 top-0 h-full w-px bg-ink/15" />
-              <div data-anim className="display text-[18px] text-ink">{b.heading}</div>
-              <p data-anim className="mt-2 text-[14.5px] leading-relaxed text-ink/65">{b.body}</p>
+              <div data-anim className="display text-[22px] text-ink">{b.heading}</div>
+              <p data-anim className="mt-2 text-[18px] leading-relaxed text-ink/65">{b.body}</p>
             </div>
           ))}
         </div>

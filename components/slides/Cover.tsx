@@ -35,18 +35,18 @@ function SlideContent() {
     <SlideFit>
       <div ref={root} className="w-[1280px] max-w-[88vw]">
         <div className="flex items-center justify-between">
-          <span data-anim className="display text-terracotta-300 text-[18px] tnum">No. 01</span>
+          <span data-anim className="display text-terracotta-300 text-[calc(22px*var(--scale-label))] tnum">No. 01</span>
           <Eyebrow accent>
             <span data-anim>{identity.planTitle}</span>
           </Eyebrow>
         </div>
 
         <div className="mt-24 flex flex-col gap-6">
-          <span data-anim className="text-[12px] uppercase tracking-[0.32em] text-ink/60">
+          <span data-anim className="text-[calc(15px*var(--scale-label))] uppercase tracking-[0.32em] text-ink/60">
             {identity.companyName} · Board Review
           </span>
 
-          <h1 className="display text-[148px] leading-[0.88] tracking-tightest-display text-ink">
+          <h1 className="display text-[calc(148px*var(--scale-display))] leading-[0.88] tracking-tightest-display text-ink">
             <Words text={identity.heroLineA} />
             <span className="flex flex-wrap items-baseline gap-x-[0.25em]">
               <Words text={identity.heroLineB} accent />
@@ -60,7 +60,7 @@ function SlideContent() {
 
           <p
             data-anim
-            className="mt-2 max-w-[58ch] text-[20px] leading-snug text-ink/70"
+            className="mt-2 max-w-[58ch] text-[calc(24px*var(--scale-subtitle))] leading-snug text-ink/70"
           >
             FY26 is a year for getting boring things right — keeping the
             customers we have, widening every gap between revenue and cost,
@@ -70,22 +70,22 @@ function SlideContent() {
 
         <div className="mt-20">
           <div data-draw className="mb-6 h-px w-full bg-ink/15" />
-          <div className="grid grid-cols-3 gap-12 text-[11px] uppercase tracking-[0.22em] text-ink/50">
+          <div className="grid grid-cols-3 gap-12 text-[calc(14px*var(--scale-label))] uppercase tracking-[0.22em] text-ink/50">
             <div data-anim>
               <div className="mb-1 text-ink/35">Presented by</div>
-              <div className="text-ink/85 normal-case tracking-normal text-[14px]">
+              <div className="text-ink/85 normal-case tracking-normal text-[calc(18px*var(--scale-body))]">
                 {identity.presenter}{identity.presenterRole ? `, ${identity.presenterRole}` : ""}
               </div>
             </div>
             <div data-anim>
               <div className="mb-1 text-ink/35">For</div>
-              <div className="text-ink/85 normal-case tracking-normal text-[14px]">
+              <div className="text-ink/85 normal-case tracking-normal text-[calc(18px*var(--scale-body))]">
                 {identity.boardName} · {identity.planPeriod}
               </div>
             </div>
             <div data-anim>
               <div className="mb-1 text-ink/35">Date</div>
-              <div className="text-ink/85 normal-case tracking-normal text-[14px]">
+              <div className="text-ink/85 normal-case tracking-normal text-[calc(18px*var(--scale-body))]">
                 {identity.date}
               </div>
             </div>

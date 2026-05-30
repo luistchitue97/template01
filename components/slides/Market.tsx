@@ -38,10 +38,10 @@ function SlideContent() {
             <div className="pointer-events-none absolute inset-0">
               <div data-grow-y className="absolute left-1/2 top-0 h-full w-px bg-ink/10" style={{ transformOrigin: "top center" }} />
               <div data-grow-x className="absolute left-0 top-1/2 h-px w-full bg-ink/10" />
-              <span className="absolute left-3 top-3 text-[10px] uppercase tracking-[0.22em] text-ink/45">Broad</span>
-              <span className="absolute left-3 bottom-3 text-[10px] uppercase tracking-[0.22em] text-ink/45">Narrow</span>
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-[0.22em] text-ink/45">Modern →</span>
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-[0.22em] text-ink/45">← Legacy</span>
+              <span className="absolute left-3 top-3 text-[13px] uppercase tracking-[0.22em] text-ink/45">Broad</span>
+              <span className="absolute left-3 bottom-3 text-[13px] uppercase tracking-[0.22em] text-ink/45">Narrow</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[13px] uppercase tracking-[0.22em] text-ink/45">Modern →</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[13px] uppercase tracking-[0.22em] text-ink/45">← Legacy</span>
             </div>
             {data.players.map((p) => (
               <div
@@ -72,7 +72,7 @@ function SlideContent() {
                 ) : null}
                 <div
                   data-anim
-                  className={p.self ? "mt-2 whitespace-nowrap text-[12px] text-ink" : "mt-2 whitespace-nowrap text-[11px] text-ink/55"}
+                  className={p.self ? "mt-2 whitespace-nowrap text-[15px] text-ink" : "mt-2 whitespace-nowrap text-[14px] text-ink/55"}
                 >
                   {p.name}
                 </div>
@@ -93,13 +93,13 @@ function SlideContent() {
                 >
                   {formatCount(s.count)}
                 </div>
-                <div data-anim className="mt-1 text-[12px] uppercase tracking-[0.22em] text-ink/55">{s.label}</div>
-                <p data-anim className="mt-3 text-[14.5px] leading-relaxed text-ink/70">{s.body}</p>
+                <div data-anim className="mt-1 text-[15px] uppercase tracking-[0.22em] text-ink/55">{s.label}</div>
+                <p data-anim className="mt-3 text-[18px] leading-relaxed text-ink/70">{s.body}</p>
               </div>
             ))}
             <div className="pt-5">
               <div data-draw className="mb-5 h-px w-full bg-ink/10" />
-              <p data-anim className="text-[14.5px] leading-relaxed text-ink/70">{data.opening}</p>
+              <p data-anim className="text-[18px] leading-relaxed text-ink/70">{data.opening}</p>
             </div>
           </div>
         </div>

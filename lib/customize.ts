@@ -15,6 +15,31 @@ export type ThemeConfig = {
   sansFont: SansFontId;
 };
 
+// ── TYPOGRAPHY (per-category text scale multipliers) ──────────────────────
+
+export type TypographyConfig = {
+  /** Hero / cover-page headlines (60+ px baseline). */
+  scaleDisplay: number;
+  /** Slide titles and h2-style headings. */
+  scaleTitle: number;
+  /** Lead paragraphs, slide subtitles. */
+  scaleSubtitle: number;
+  /** Body copy, paragraphs, list items. */
+  scaleBody: number;
+  /** Small uppercase eyebrows, tags, micro-labels. */
+  scaleLabel: number;
+};
+
+export const DEFAULT_TYPOGRAPHY: TypographyConfig = {
+  scaleDisplay: 1,
+  scaleTitle: 1,
+  scaleSubtitle: 1,
+  scaleBody: 1,
+  scaleLabel: 1,
+};
+
+export const TYPOGRAPHY_BOUNDS = { min: 0.7, max: 1.6, step: 0.05 } as const;
+
 // ── IDENTITY (Cover + Asks callback) ──────────────────────────────────────
 
 export type IdentityConfig = {
@@ -183,6 +208,7 @@ export type SlidesConfig = {
 export type CustomizeConfig = {
   theme: ThemeConfig;
   identity: IdentityConfig;
+  typography: TypographyConfig;
   slides: SlidesConfig;
 };
 
@@ -206,6 +232,7 @@ export const DEFAULT_CONFIG: CustomizeConfig = {
     heroLineA: "A quiet year",
     heroLineB: "of compounding.",
   },
+  typography: DEFAULT_TYPOGRAPHY,
   slides: SLIDE_DEFAULTS,
 };
 
@@ -269,6 +296,7 @@ export function loadConfig(): CustomizeConfig {
     return {
       theme: { ...DEFAULT_CONFIG.theme, ...(parsed.theme ?? {}) },
       identity: { ...DEFAULT_CONFIG.identity, ...(parsed.identity ?? {}) },
+      typography: { ...DEFAULT_CONFIG.typography, ...(parsed.typography ?? {}) },
       slides: mergeSlides(parsed.slides),
     };
   } catch {

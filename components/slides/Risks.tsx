@@ -35,7 +35,7 @@ function SlideContent() {
         </div>
 
         <div data-anim className="mt-12 border border-ink/15 bg-cream-50/60">
-          <div className="grid grid-cols-[1.6fr_120px_120px_1.6fr_140px] border-b border-ink/12 text-[11px] uppercase tracking-[0.22em] text-ink/55">
+          <div className="grid grid-cols-[1.6fr_120px_120px_1.6fr_140px] border-b border-ink/12 text-[14px] uppercase tracking-[0.22em] text-ink/55">
             <div className="px-5 py-3">Risk</div>
             <div className="border-l border-ink/10 px-5 py-3">Likelihood</div>
             <div className="border-l border-ink/10 px-5 py-3">Impact</div>
@@ -49,17 +49,17 @@ function SlideContent() {
               data-anim
               className="grid grid-cols-[1.6fr_120px_120px_1.6fr_140px] border-b border-ink/8 last:border-b-0"
             >
-              <div className="px-5 py-4 text-[14px] text-ink">{r.risk}</div>
-              <div className="flex items-center gap-2 border-l border-ink/8 px-5 py-4 text-[13px] text-ink/75">
+              <div className="px-5 py-4 text-[18px] text-ink">{r.risk}</div>
+              <div className="flex items-center gap-2 border-l border-ink/8 px-5 py-4 text-[17px] text-ink/75">
                 <span data-pop className={`inline-block h-2 w-2 rounded-full ${sevDot(r.likelihood)}`} />
                 {r.likelihood}
               </div>
-              <div className="flex items-center gap-2 border-l border-ink/8 px-5 py-4 text-[13px] text-ink/75">
+              <div className="flex items-center gap-2 border-l border-ink/8 px-5 py-4 text-[17px] text-ink/75">
                 <span data-pop className={`inline-block h-2 w-2 rounded-full ${sevDot(r.impact)}`} />
                 {r.impact}
               </div>
-              <div className="border-l border-ink/8 px-5 py-4 text-[13.5px] leading-snug text-ink/75">{r.mitigation}</div>
-              <div className="border-l border-ink/8 px-5 py-4 text-[13px] text-ink/65">{r.owner}</div>
+              <div className="border-l border-ink/8 px-5 py-4 text-[17px] leading-snug text-ink/75">{r.mitigation}</div>
+              <div className="border-l border-ink/8 px-5 py-4 text-[17px] text-ink/65">{r.owner}</div>
             </div>
           ))}
         </div>
