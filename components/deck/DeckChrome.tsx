@@ -1,6 +1,7 @@
 "use client";
 
 import { useDeckNav } from "./contexts";
+import { useCustomize } from "@/components/customize/CustomizeProvider";
 import { cn } from "@/lib/cn";
 
 type DeckChromeProps = {
@@ -11,7 +12,11 @@ const pad2 = (n: number) => n.toString().padStart(2, "0");
 
 export function DeckChrome({ customizeHref }: DeckChromeProps) {
   const { current, total, labels, go, next, prev, isFullscreen, toggleFullscreen } = useDeckNav();
+  const { config, update } = useCustomize();
   const progress = total <= 1 ? 1 : current / (total - 1);
+  const isDark = config.theme.backgroundTone === "graphite";
+  const toggleTheme = () =>
+    update({ theme: { backgroundTone: isDark ? "cream" : "graphite" } });
 
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 select-none">
@@ -95,9 +100,18 @@ export function DeckChrome({ customizeHref }: DeckChromeProps) {
           </button>
           <button
             type="button"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+            aria-pressed={isDark}
+            className="ml-1 grid h-9 w-9 place-items-center rounded-full border border-ink/15 text-ink transition hover:border-ink/45"
+          >
+            {isDark ? <SunGlyph /> : <MoonGlyph />}
+          </button>
+          <button
+            type="button"
             onClick={toggleFullscreen}
             aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-            className="ml-1 grid h-9 w-9 place-items-center rounded-full border border-ink/15 text-ink transition hover:border-ink/45"
+            className="grid h-9 w-9 place-items-center rounded-full border border-ink/15 text-ink transition hover:border-ink/45"
           >
             <FullscreenGlyph active={isFullscreen} />
           </button>
@@ -118,6 +132,34 @@ function Arrow({ dir }: { dir: "left" | "right" }) {
       aria-hidden
     >
       <path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function MoonGlyph() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+      <path
+        d="M10.4 7.6A4.5 4.5 0 1 1 4.4 1.6a3.6 3.6 0 0 0 6 6Z"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SunGlyph() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+      <circle cx="6" cy="6" r="2.2" stroke="currentColor" strokeWidth="1.2" />
+      <path
+        d="M6 0.8V2.2M6 9.8V11.2M11.2 6H9.8M2.2 6H0.8M9.67 2.33L8.68 3.32M3.32 8.68L2.33 9.67M9.67 9.67L8.68 8.68M3.32 3.32L2.33 2.33"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
