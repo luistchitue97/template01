@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useCustomize } from "@/components/customize/CustomizeProvider";
+import { SaveIndicator } from "@/components/customize/SaveIndicator";
 import {
   AsksEditor,
   ExecutiveSummaryEditor,
@@ -54,7 +55,7 @@ const NAV: { id: string; label: string }[] = [
 ];
 
 export function CustomizeClient() {
-  const { config, update, reset } = useCustomize();
+  const { config, update, reset, serverBacked } = useCustomize();
   const { theme, identity } = config;
 
   return (
@@ -71,7 +72,10 @@ export function CustomizeClient() {
             <span className="transition-transform group-hover:-translate-x-0.5">←</span>
             Back to deck
           </Link>
-          <Eyebrow accent>Customize</Eyebrow>
+          <div className="flex items-center gap-6">
+            <SaveIndicator />
+            <Eyebrow accent>Customize</Eyebrow>
+          </div>
         </div>
 
         {/* Hero */}
@@ -80,8 +84,10 @@ export function CustomizeClient() {
             Make this deck <span className="text-terracotta-300">yours.</span>
           </h1>
           <p className="mt-5 text-[16px] leading-relaxed text-ink/70">
-            Tune the theme, identity, and every slide. Changes save to this
-            browser and apply immediately when you go back to the deck.
+            Tune the theme, identity, and every slide. {serverBacked
+              ? "Changes sync to your account and follow you across devices."
+              : "Changes save to this browser only."}{" "}
+            Apply immediately when you go back to the deck.
           </p>
         </header>
 

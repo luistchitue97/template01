@@ -5,7 +5,7 @@ import { MobileGate } from "@/components/ui/MobileGate";
 import { withAuth } from "@/lib/workos";
 import { hasLifetimeAccess } from "@/lib/entitlements";
 import { getCustomization } from "@/lib/customizations-repo";
-import type { CustomizeConfig } from "@/lib/customize";
+import { DEFAULT_CONFIG, type CustomizeConfig } from "@/lib/customize";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +19,11 @@ async function loadInitialServerConfig(): Promise<CustomizeConfig | null> {
     const session = await withAuth();
     if (!session.user) return null;
     if (!(await hasLifetimeAccess(session.user.id))) return null;
-    return await getCustomization(session.user.id);
+    // Returning DEFAULT_CONFIG (not null) for entitled-but-unsaved users is
+    // what flips the provider into server-backed mode. Otherwise the first
+    // edits go to localStorage and never reach the DB.
+    const stored = await getCustomization(session.user.id);
+    return stored ?? DEFAULT_CONFIG;
   } catch {
     // DB or session errors must not break the deck render for guests.
     return null;

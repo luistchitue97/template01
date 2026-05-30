@@ -29,6 +29,8 @@ type ConfigPatch = {
   slides?: Partial<SlidesConfig>;
 };
 
+export type SaveStatus = "idle" | "pending" | "saving" | "saved" | "error";
+
 type Ctx = {
   config: CustomizeConfig;
   update: (patch: ConfigPatch) => void;
@@ -36,6 +38,10 @@ type Ctx = {
   hydrated: boolean;
   /** True when configs are persisted server-side for this signed-in user. */
   serverBacked: boolean;
+  /** Save lifecycle (server-backed mode only — stays "idle" for guests). */
+  saveStatus: SaveStatus;
+  /** Last save error message, if any. */
+  saveError: string | null;
 };
 
 const CustomizeContext = createContext<Ctx | null>(null);
@@ -64,6 +70,7 @@ function applyThemeToDOM(cfg: CustomizeConfig) {
 }
 
 const SAVE_DEBOUNCE_MS = 700;
+const SAVED_FLASH_MS = 1500;
 
 export function CustomizeProvider({
   children,
@@ -83,6 +90,8 @@ export function CustomizeProvider({
     initialServerConfig ?? DEFAULT_CONFIG,
   );
   const [hydrated, setHydrated] = useState(serverBacked);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   // Hydrate from localStorage when not server-backed. When server-backed,
   // the initial config already matches both SSR and first client paint.
@@ -97,26 +106,43 @@ export function CustomizeProvider({
     setHydrated(true);
   }, [serverBacked, initialServerConfig]);
 
-  // Debounced server PUT, only when server-backed.
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const savedFlashRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const persistServer = useCallback((next: CustomizeConfig) => {
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-    saveTimerRef.current = setTimeout(() => {
-      fetch("/api/customize", {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(next),
-      }).catch(() => {
-        // Surface failures via a toast later; swallow for now so the UI
-        // doesn't break on transient network errors.
-      });
+    if (savedFlashRef.current) clearTimeout(savedFlashRef.current);
+    setSaveStatus("pending");
+    setSaveError(null);
+
+    saveTimerRef.current = setTimeout(async () => {
+      setSaveStatus("saving");
+      try {
+        const res = await fetch("/api/customize", {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(next),
+        });
+        if (!res.ok) {
+          const body = await res.text().catch(() => "");
+          throw new Error(`HTTP ${res.status}: ${body || res.statusText}`);
+        }
+        setSaveStatus("saved");
+        savedFlashRef.current = setTimeout(() => setSaveStatus("idle"), SAVED_FLASH_MS);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Save failed";
+        setSaveStatus("error");
+        setSaveError(message);
+        // Surface in DevTools console so it's not invisible.
+        console.error("[customize] save failed:", err);
+      }
     }, SAVE_DEBOUNCE_MS);
   }, []);
 
-  // Flush any pending save on unmount.
   useEffect(() => {
     return () => {
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+      if (savedFlashRef.current) clearTimeout(savedFlashRef.current);
     };
   }, []);
 
@@ -142,8 +168,8 @@ export function CustomizeProvider({
   }, [serverBacked, persistServer]);
 
   const value = useMemo<Ctx>(
-    () => ({ config, update, reset, hydrated, serverBacked }),
-    [config, update, reset, hydrated, serverBacked],
+    () => ({ config, update, reset, hydrated, serverBacked, saveStatus, saveError }),
+    [config, update, reset, hydrated, serverBacked, saveStatus, saveError],
   );
 
   return <CustomizeContext.Provider value={value}>{children}</CustomizeContext.Provider>;
