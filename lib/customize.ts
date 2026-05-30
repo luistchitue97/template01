@@ -6,7 +6,7 @@ export const STORAGE_KEY = "template-04.customize.v2";
 
 export type DisplayFontId = "fraunces" | "playfair" | "ebgaramond";
 export type SansFontId = "inter" | "manrope" | "plex";
-export type BackgroundToneId = "cream" | "ivory" | "ash";
+export type BackgroundToneId = "cream" | "ivory" | "ash" | "graphite";
 
 export type ThemeConfig = {
   accentRgb: string;
@@ -214,9 +214,10 @@ export const BACKGROUND_TONES: Record<
   BackgroundToneId,
   { label: string; bg: string; bg50: string; ink: string }
 > = {
-  cream: { label: "Cream", bg: "245 240 232", bg50: "251 248 242", ink: "26 22 18" },
-  ivory: { label: "Ivory", bg: "251 248 242", bg50: "255 253 247", ink: "26 22 18" },
-  ash:   { label: "Ash",   bg: "232 229 222", bg50: "240 237 230", ink: "26 22 18" },
+  cream:    { label: "Cream",    bg: "245 240 232", bg50: "251 248 242", ink: "26 22 18" },
+  ivory:    { label: "Ivory",    bg: "251 248 242", bg50: "255 253 247", ink: "26 22 18" },
+  ash:      { label: "Ash",      bg: "232 229 222", bg50: "240 237 230", ink: "26 22 18" },
+  graphite: { label: "Graphite", bg: "20 16 12",    bg50: "30 25 20",    ink: "245 240 232" },
 };
 
 export const ACCENT_PRESETS: { id: string; label: string; rgb: string }[] = [

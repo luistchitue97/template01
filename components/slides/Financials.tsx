@@ -137,11 +137,11 @@ function LineChartCard({ data }: { data: Financials }) {
           PLAN →
         </text>
 
-        <path data-path d={pathFor(data.gmSeries)}  fill="none" stroke="#C75D3E" strokeWidth="2"   strokeLinecap="round" strokeLinejoin="round" />
-        <path data-path d={pathFor(data.fcfSeries)} fill="none" stroke="#1A1612" strokeOpacity="0.85" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path data-path d={pathFor(data.gmSeries)}  fill="none" strokeWidth="2"   strokeLinecap="round" strokeLinejoin="round" style={{ stroke: "rgb(var(--accent-rgb))" }} />
+        <path data-path d={pathFor(data.fcfSeries)} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ stroke: "rgb(var(--ink-rgb) / 0.85)" }} />
 
-        <circle cx={xAt(data.quarters.length - 1)} cy={yAt(lastGm)}  r="3" fill="#C75D3E" />
-        <circle cx={xAt(data.quarters.length - 1)} cy={yAt(lastFcf)} r="3" fill="#1A1612" />
+        <circle cx={xAt(data.quarters.length - 1)} cy={yAt(lastGm)}  r="3" style={{ fill: "rgb(var(--accent-rgb))" }} />
+        <circle cx={xAt(data.quarters.length - 1)} cy={yAt(lastFcf)} r="3" style={{ fill: "rgb(var(--ink-rgb))" }} />
 
         {data.quarters.map((q, i) => (
           <text key={`${q}-${i}`} x={xAt(i)} y={H - 8} fontSize="9.5" textAnchor="middle" fill="currentColor" fillOpacity="0.55" className="tnum">

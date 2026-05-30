@@ -21,17 +21,24 @@ function Spark({ series, tone }: { series: number[]; tone: Tone }) {
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     })
     .join(" ");
-  const stroke = tone === "up" ? "#C75D3E" : tone === "down" ? "#5B524A" : "#1A1612";
+  // Inline style (not the `stroke` attribute) so the CSS variables resolve —
+  // lets the spark recolor when the user switches between cream/graphite tones.
+  const strokeColor =
+    tone === "up"
+      ? "rgb(var(--accent-rgb))"
+      : tone === "down"
+      ? "rgb(var(--ink-rgb) / 0.45)"
+      : "rgb(var(--ink-rgb))";
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="overflow-visible">
       <polyline
         data-path
         fill="none"
-        stroke={stroke}
         strokeWidth="1.4"
         strokeLinecap="round"
         strokeLinejoin="round"
         points={pts}
+        style={{ stroke: strokeColor }}
       />
     </svg>
   );
