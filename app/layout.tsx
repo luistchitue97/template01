@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FONT_VARS } from "@/lib/fonts";
 import { CustomizeProvider } from "@/components/customize/CustomizeProvider";
+import { MobileGate } from "@/components/ui/MobileGate";
 import { withAuth } from "@/lib/workos";
 import { hasLifetimeAccess } from "@/lib/entitlements";
 import { getCustomization } from "@/lib/customizations-repo";
@@ -34,6 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <CustomizeProvider initialServerConfig={initialServerConfig}>
           {children}
         </CustomizeProvider>
+        <MobileGate />
       </body>
     </html>
   );
