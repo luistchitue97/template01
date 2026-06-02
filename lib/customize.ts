@@ -408,18 +408,57 @@ export function rgbTripletToHex(triplet: string): string {
   return "#" + parts.map((n) => n.toString(16).padStart(2, "0")).join("");
 }
 
+/**
+ * Recursively merge `source` into `target`, never losing a field defined
+ * on the target. Used so older saved configs (which lack newer nested
+ * fields like `financials.lineCard.yGridTicks`) don't crash the renderer
+ * after a shape change — defaults fall through wherever the saved blob
+ * is missing a key. Arrays are replaced wholesale (so an empty saved
+ * array means "user cleared this list", not "merge with defaults").
+ */
+function deepMerge<T>(target: T, source: unknown): T {
+  if (source === null || source === undefined) return target;
+  if (
+    typeof target !== "object" ||
+    target === null ||
+    Array.isArray(target) ||
+    typeof source !== "object" ||
+    Array.isArray(source)
+  ) {
+    return source as T;
+  }
+  const out: Record<string, unknown> = { ...(target as Record<string, unknown>) };
+  for (const key of Object.keys(source as Record<string, unknown>)) {
+    const sourceVal = (source as Record<string, unknown>)[key];
+    if (sourceVal === undefined) continue;
+    const targetVal = (target as Record<string, unknown>)[key];
+    if (
+      targetVal !== null &&
+      typeof targetVal === "object" &&
+      !Array.isArray(targetVal) &&
+      sourceVal !== null &&
+      typeof sourceVal === "object" &&
+      !Array.isArray(sourceVal)
+    ) {
+      out[key] = deepMerge(targetVal, sourceVal);
+    } else {
+      out[key] = sourceVal;
+    }
+  }
+  return out as T;
+}
+
 export function loadConfig(): CustomizeConfig {
   if (typeof window === "undefined") return DEFAULT_CONFIG;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return DEFAULT_CONFIG;
     const parsed = JSON.parse(raw) as Partial<CustomizeConfig>;
-    // Deep-merge defaults so new schema fields don't crash older saved configs.
     return {
-      theme: { ...DEFAULT_CONFIG.theme, ...(parsed.theme ?? {}) },
-      identity: { ...DEFAULT_CONFIG.identity, ...(parsed.identity ?? {}) },
-      typography: { ...DEFAULT_CONFIG.typography, ...(parsed.typography ?? {}) },
-      slides: mergeSlides(parsed.slides),
+      theme:      deepMerge(DEFAULT_CONFIG.theme,      parsed.theme),
+      identity:   deepMerge(DEFAULT_CONFIG.identity,   parsed.identity),
+      typography: deepMerge(DEFAULT_CONFIG.typography, parsed.typography),
+      slides:     mergeSlides(parsed.slides),
     };
   } catch {
     return DEFAULT_CONFIG;
@@ -431,17 +470,17 @@ export function mergeSlides(saved: Partial<SlidesConfig> | undefined): SlidesCon
   if (!saved) return d;
   const savedLabels = Array.isArray(saved.navLabels) ? saved.navLabels : null;
   return {
-    executiveSummary: { ...d.executiveSummary, ...(saved.executiveSummary ?? {}) },
-    situation:        { ...d.situation,        ...(saved.situation ?? {}) },
-    market:           { ...d.market,           ...(saved.market ?? {}) },
-    priorities:       { ...d.priorities,       ...(saved.priorities ?? {}) },
-    okrs:             { ...d.okrs,             ...(saved.okrs ?? {}) },
-    roadmap:          { ...d.roadmap,          ...(saved.roadmap ?? {}) },
-    financials:       { ...d.financials,       ...(saved.financials ?? {}) },
-    resources:        { ...d.resources,        ...(saved.resources ?? {}) },
-    risks:            { ...d.risks,            ...(saved.risks ?? {}) },
-    kpis:             { ...d.kpis,             ...(saved.kpis ?? {}) },
-    asks:             { ...d.asks,             ...(saved.asks ?? {}) },
+    executiveSummary: deepMerge(d.executiveSummary, saved.executiveSummary),
+    situation:        deepMerge(d.situation,        saved.situation),
+    market:           deepMerge(d.market,           saved.market),
+    priorities:       deepMerge(d.priorities,       saved.priorities),
+    okrs:             deepMerge(d.okrs,             saved.okrs),
+    roadmap:          deepMerge(d.roadmap,          saved.roadmap),
+    financials:       deepMerge(d.financials,       saved.financials),
+    resources:        deepMerge(d.resources,        saved.resources),
+    risks:            deepMerge(d.risks,            saved.risks),
+    kpis:             deepMerge(d.kpis,             saved.kpis),
+    asks:             deepMerge(d.asks,             saved.asks),
     // Pad with defaults if the saved array is shorter than the current deck.
     navLabels: d.navLabels.map((def, i) => savedLabels?.[i] ?? def),
     hiddenSlideIndexes: Array.isArray(saved.hiddenSlideIndexes)

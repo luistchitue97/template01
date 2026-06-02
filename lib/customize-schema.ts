@@ -22,6 +22,10 @@ export const MAX_CONFIG_BYTES = 200_000; // 200 KB cap on a single config blob
 
 export function normalizeConfig(parsed: unknown): CustomizeConfig {
   const p = (parsed ?? {}) as Partial<CustomizeConfig>;
+  // Note: theme/identity/typography are flat enough that a shallow merge is
+  // still safe; only `slides` has nested objects (lineCard, axisLabels,
+  // legend, columnHeaders, headlineNoun, etc.) that need deep-merge so
+  // newer fields fall through to defaults. `mergeSlides` handles that.
   return {
     theme:      { ...DEFAULT_CONFIG.theme,      ...(p.theme ?? {}) },
     identity:   { ...DEFAULT_CONFIG.identity,   ...(p.identity ?? {}) },
