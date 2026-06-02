@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FONT_VARS } from "@/lib/fonts";
 import { CustomizeProvider } from "@/components/customize/CustomizeProvider";
+import { AuroraBackdrop } from "@/components/ui/AuroraBackdrop";
 import { MobileGate } from "@/components/ui/MobileGate";
 import { withAuth } from "@/lib/workos";
 import { hasLifetimeAccess } from "@/lib/entitlements";
@@ -37,7 +38,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" className={FONT_VARS}>
       <body className="bg-cream text-ink">
         <CustomizeProvider initialServerConfig={initialServerConfig}>
-          {children}
+          <AuroraBackdrop />
+          <div className="relative z-10">{children}</div>
         </CustomizeProvider>
         <MobileGate />
       </body>

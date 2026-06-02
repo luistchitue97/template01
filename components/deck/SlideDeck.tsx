@@ -159,7 +159,7 @@ export function SlideDeck({ children, customizeHref }: SlideDeckProps) {
 
   return (
     <DeckNavContext.Provider value={navValue}>
-      <div className="relative w-screen h-[100svh] overflow-hidden bg-cream text-ink">
+      <div className="relative w-screen h-[100svh] overflow-hidden text-ink">
         <div
           className="flex h-full will-change-transform"
           style={{
