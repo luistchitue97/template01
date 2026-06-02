@@ -27,7 +27,7 @@ function SlideContent() {
         <div data-anim>
           <SlideHeader
             number="04"
-            kicker="Market & Landscape"
+            kicker={data.kicker}
             title={data.title}
             subtitle={data.subtitle}
           />
@@ -38,10 +38,10 @@ function SlideContent() {
             <div className="pointer-events-none absolute inset-0">
               <div data-grow-y className="absolute left-1/2 top-0 h-full w-px bg-ink/10" style={{ transformOrigin: "top center" }} />
               <div data-grow-x className="absolute left-0 top-1/2 h-px w-full bg-ink/10" />
-              <span className="absolute left-3 top-3 text-[13px] uppercase tracking-[0.22em] text-ink/45">Broad</span>
-              <span className="absolute left-3 bottom-3 text-[13px] uppercase tracking-[0.22em] text-ink/45">Narrow</span>
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[13px] uppercase tracking-[0.22em] text-ink/45">Modern →</span>
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[13px] uppercase tracking-[0.22em] text-ink/45">← Legacy</span>
+              <span className="absolute left-3 top-3 text-[13px] uppercase tracking-[0.22em] text-ink/45">{data.axisLabels.top}</span>
+              <span className="absolute left-3 bottom-3 text-[13px] uppercase tracking-[0.22em] text-ink/45">{data.axisLabels.bottom}</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[13px] uppercase tracking-[0.22em] text-ink/45">{data.axisLabels.right}</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[13px] uppercase tracking-[0.22em] text-ink/45">{data.axisLabels.left}</span>
             </div>
             {data.players.map((p) => (
               <div

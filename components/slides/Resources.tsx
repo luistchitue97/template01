@@ -25,7 +25,7 @@ function SlideContent() {
         <div data-anim>
           <SlideHeader
             number="09"
-            kicker="Resourcing the Plan"
+            kicker={data.kicker}
             title={data.title}
             subtitle={data.subtitle}
           />
@@ -35,7 +35,7 @@ function SlideContent() {
           {/* Headcount */}
           <div>
             <div data-anim className="flex items-baseline justify-between">
-              <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">Headcount by function</span>
+              <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">{data.headcountHeader}</span>
               <span className="text-[14px] uppercase tracking-[0.22em] text-ink/45 tnum">{totalCurrent} → {totalNew}</span>
             </div>
 
@@ -71,7 +71,7 @@ function SlideContent() {
           {/* Budget */}
           <div>
             <div data-anim className="flex items-baseline justify-between">
-              <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">FY26 budget — {data.budgetTotal}</span>
+              <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">{data.budgetHeader} {data.budgetTotal}</span>
             </div>
 
             <div className="mt-6 flex h-10 w-full overflow-hidden rounded-full border border-ink/10">

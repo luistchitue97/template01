@@ -23,7 +23,7 @@ function SlideContent() {
         <div data-anim>
           <SlideHeader
             number="02"
-            kicker="Executive Summary"
+            kicker={data.kicker}
             title={data.title}
             subtitle={data.subtitle}
           />

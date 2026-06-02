@@ -22,7 +22,7 @@ function SlideContent() {
         <div data-anim>
           <SlideHeader
             number="08"
-            kicker="Financial Plan"
+            kicker={data.kicker}
             title={data.title}
             titleAccent={data.titleAccent}
             subtitle={data.subtitle}
@@ -45,8 +45,8 @@ function BarChartCard({ data }: { data: Financials }) {
   return (
     <div data-anim className="relative border border-ink/15 bg-cream-50/60 p-5">
       <div className="flex items-baseline justify-between">
-        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">Quarterly revenue &amp; cost</span>
-        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/45 tnum">$M</span>
+        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">{data.barCard.title}</span>
+        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/45 tnum">{data.barCard.unit}</span>
       </div>
 
       <div className="relative mt-5 flex h-[220px] items-end gap-2">
@@ -81,9 +81,9 @@ function BarChartCard({ data }: { data: Financials }) {
       </div>
 
       <div className="mt-4 flex items-center gap-4 text-[13px] uppercase tracking-[0.22em] text-ink/55">
-        <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 bg-ink/75" /> Actual rev.</span>
-        <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 bg-terracotta-300" /> Plan rev.</span>
-        <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 bg-ink/15" /> Cost</span>
+        <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 bg-ink/75" /> {data.barCard.legendActual}</span>
+        <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 bg-terracotta-300" /> {data.barCard.legendPlan}</span>
+        <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 bg-ink/15" /> {data.barCard.legendCost}</span>
       </div>
     </div>
   );
@@ -119,8 +119,8 @@ function LineChartCard({ data }: { data: Financials }) {
   return (
     <div data-anim className="relative border border-ink/15 bg-cream-50/60 p-5">
       <div className="flex items-baseline justify-between">
-        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">Margin trajectory</span>
-        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/45 tnum">%</span>
+        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/55">{data.lineCard.title}</span>
+        <span className="text-[14px] uppercase tracking-[0.22em] text-ink/45 tnum">{data.lineCard.unit}</span>
       </div>
 
       <svg
@@ -134,7 +134,7 @@ function LineChartCard({ data }: { data: Financials }) {
         <line x1={padL} x2={W - padR} y1={yAt(0)} y2={yAt(0)} stroke="currentColor" strokeOpacity="0.28" />
         <line x1={planDividerX} x2={planDividerX} y1={padT} y2={H - padB} stroke="currentColor" strokeOpacity="0.18" strokeDasharray="2 4" />
         <text x={planDividerX + 4} y={padT + 10} fontSize="9" fill="currentColor" fillOpacity="0.45" style={{ letterSpacing: "0.18em" }}>
-          PLAN →
+          {data.lineCard.planDivider}
         </text>
 
         <path data-path d={pathFor(data.gmSeries)}  fill="none" strokeWidth="2"   strokeLinecap="round" strokeLinejoin="round" style={{ stroke: "rgb(var(--accent-rgb))" }} />
@@ -156,8 +156,8 @@ function LineChartCard({ data }: { data: Financials }) {
       </svg>
 
       <div className="mt-1 flex items-center gap-4 text-[13px] uppercase tracking-[0.22em] text-ink/55">
-        <span className="flex items-center gap-2"><span className="inline-block h-[2px] w-4 bg-terracotta-300" /> Gross margin</span>
-        <span className="flex items-center gap-2"><span className="inline-block h-[2px] w-4 bg-ink/85" /> FCF margin</span>
+        <span className="flex items-center gap-2"><span className="inline-block h-[2px] w-4 bg-terracotta-300" /> {data.lineCard.legendGm}</span>
+        <span className="flex items-center gap-2"><span className="inline-block h-[2px] w-4 bg-ink/85" /> {data.lineCard.legendFcf}</span>
       </div>
     </div>
   );

@@ -104,6 +104,9 @@ export function ExecutiveSummaryEditor() {
   const d = data as ExecutiveSummary;
   return (
     <Section id="exec" number="04" title="Slide 02 — Executive summary">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Executive Summary" />
+      </Row>
       <Row label="Title" hint="Use \n for line break">
         <TextArea value={d.title} onChange={(v) => set({ title: v })} rows={2} />
       </Row>
@@ -179,6 +182,9 @@ export function SituationEditor() {
   const d = data as Situation;
   return (
     <Section id="situation" number="05" title="Slide 03 — Where we stand">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Situation Analysis" />
+      </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
       <Row label="Quadrants">
@@ -216,8 +222,20 @@ export function MarketEditor() {
   const d = data as Market;
   return (
     <Section id="market" number="06" title="Slide 04 — Market & landscape">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Market & Landscape" />
+      </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
+
+      <Row label="Chart axis labels" hint="Labels around the 2×2 scatter — top/bottom for the y-axis, left/right for the x-axis.">
+        <div className="grid grid-cols-2 gap-3">
+          <FieldLabel label="Top (y+)"><TextField value={d.axisLabels.top} onChange={(v) => set({ axisLabels: { ...d.axisLabels, top: v } })} /></FieldLabel>
+          <FieldLabel label="Bottom (y−)"><TextField value={d.axisLabels.bottom} onChange={(v) => set({ axisLabels: { ...d.axisLabels, bottom: v } })} /></FieldLabel>
+          <FieldLabel label="Right (x+)"><TextField value={d.axisLabels.right} onChange={(v) => set({ axisLabels: { ...d.axisLabels, right: v } })} /></FieldLabel>
+          <FieldLabel label="Left (x−)"><TextField value={d.axisLabels.left} onChange={(v) => set({ axisLabels: { ...d.axisLabels, left: v } })} /></FieldLabel>
+        </div>
+      </Row>
 
       <Row label="Chart players" hint="x, y are 0..1 (0 = left/bottom, 1 = right/top). One player can be marked 'self'.">
         <ListEditor
@@ -275,9 +293,15 @@ export function PrioritiesEditor() {
   const d = data as Priorities;
   return (
     <Section id="priorities" number="07" title="Slide 05 — Strategic priorities">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Strategic Priorities" />
+      </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Title (accent part)" hint="Rendered in the accent color after the title."><TextField value={d.titleAccent ?? ""} onChange={(v) => set({ titleAccent: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
+      <Row label="Pillar tag" hint="Per-card label shown top-right of each pillar.">
+        <TextField value={d.pillarTag} onChange={(v) => set({ pillarTag: v })} placeholder="Pillar" />
+      </Row>
       <Row label="Pillars">
         <ListEditor
           items={d.pillars}
@@ -313,6 +337,9 @@ export function OKRsEditor() {
   const d = data as OKRs;
   return (
     <Section id="okrs" number="08" title="Slide 06 — OKRs">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Objectives & Key Results" />
+      </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
       <Row label="Objectives">
@@ -362,8 +389,38 @@ export function RoadmapEditor() {
   const d = data as Roadmap;
   return (
     <Section id="roadmap" number="09" title="Slide 07 — Roadmap">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="FY26 Roadmap" />
+      </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
+
+      <Row label="Table headers" hint="Top-row labels of the roadmap grid.">
+        <div className="grid grid-cols-[1fr_repeat(4,1fr)] gap-3">
+          <FieldLabel small label="Pillar col"><TextField value={d.pillarHeader} onChange={(v) => set({ pillarHeader: v })} /></FieldLabel>
+          {[0, 1, 2, 3].map((i) => (
+            <FieldLabel key={i} small label={`Q${i + 1}`}>
+              <TextField
+                value={d.quarterHeaders[i] ?? ""}
+                onChange={(v) => {
+                  const next = [...d.quarterHeaders];
+                  while (next.length < 4) next.push("");
+                  next[i] = v;
+                  set({ quarterHeaders: next.slice(0, 4) });
+                }}
+              />
+            </FieldLabel>
+          ))}
+        </div>
+      </Row>
+
+      <Row label="Legend labels" hint="Tone labels shown beneath the timeline.">
+        <div className="grid grid-cols-3 gap-3">
+          <FieldLabel small label="Committed"><TextField value={d.legend.committed} onChange={(v) => set({ legend: { ...d.legend, committed: v } })} /></FieldLabel>
+          <FieldLabel small label="In-flight"><TextField value={d.legend.inFlight} onChange={(v) => set({ legend: { ...d.legend, inFlight: v } })} /></FieldLabel>
+          <FieldLabel small label="Exploratory"><TextField value={d.legend.exploratory} onChange={(v) => set({ legend: { ...d.legend, exploratory: v } })} /></FieldLabel>
+        </div>
+      </Row>
 
       <Row label="Lanes" hint="Roman is used to link bars to lanes (case-sensitive).">
         <ListEditor
@@ -423,9 +480,32 @@ export function FinancialsEditor() {
   const d = data as Financials;
   return (
     <Section id="financials" number="10" title="Slide 08 — Financial plan">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Financial Plan" />
+      </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Title (accent)"><TextField value={d.titleAccent ?? ""} onChange={(v) => set({ titleAccent: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
+
+      <Row label="Bar chart labels" hint="Title, unit, and legend on the quarterly bar chart.">
+        <div className="grid grid-cols-2 gap-3">
+          <FieldLabel small label="Title"><TextField value={d.barCard.title} onChange={(v) => set({ barCard: { ...d.barCard, title: v } })} /></FieldLabel>
+          <FieldLabel small label="Unit"><TextField value={d.barCard.unit} onChange={(v) => set({ barCard: { ...d.barCard, unit: v } })} /></FieldLabel>
+          <FieldLabel small label="Legend · actual rev."><TextField value={d.barCard.legendActual} onChange={(v) => set({ barCard: { ...d.barCard, legendActual: v } })} /></FieldLabel>
+          <FieldLabel small label="Legend · plan rev."><TextField value={d.barCard.legendPlan} onChange={(v) => set({ barCard: { ...d.barCard, legendPlan: v } })} /></FieldLabel>
+          <FieldLabel small label="Legend · cost"><TextField value={d.barCard.legendCost} onChange={(v) => set({ barCard: { ...d.barCard, legendCost: v } })} /></FieldLabel>
+        </div>
+      </Row>
+
+      <Row label="Line chart labels" hint="Title, unit, legend, and plan-divider label on the margin trajectory chart.">
+        <div className="grid grid-cols-2 gap-3">
+          <FieldLabel small label="Title"><TextField value={d.lineCard.title} onChange={(v) => set({ lineCard: { ...d.lineCard, title: v } })} /></FieldLabel>
+          <FieldLabel small label="Unit"><TextField value={d.lineCard.unit} onChange={(v) => set({ lineCard: { ...d.lineCard, unit: v } })} /></FieldLabel>
+          <FieldLabel small label="Legend · gross margin"><TextField value={d.lineCard.legendGm} onChange={(v) => set({ lineCard: { ...d.lineCard, legendGm: v } })} /></FieldLabel>
+          <FieldLabel small label="Legend · FCF margin"><TextField value={d.lineCard.legendFcf} onChange={(v) => set({ lineCard: { ...d.lineCard, legendFcf: v } })} /></FieldLabel>
+          <FieldLabel small label="Plan divider label"><TextField value={d.lineCard.planDivider} onChange={(v) => set({ lineCard: { ...d.lineCard, planDivider: v } })} /></FieldLabel>
+        </div>
+      </Row>
 
       <Row label="Quarters" hint="Comma-separated labels (e.g. Q1·25, Q2·25, …).">
         <TextField
@@ -471,8 +551,17 @@ export function ResourcesEditor() {
   const d = data as Resources;
   return (
     <Section id="resources" number="11" title="Slide 09 — Resourcing">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Resourcing the Plan" />
+      </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
+      <Row label="Headcount header" hint="Header above the headcount bars.">
+        <TextField value={d.headcountHeader} onChange={(v) => set({ headcountHeader: v })} placeholder="Headcount by function" />
+      </Row>
+      <Row label="Budget header" hint="Prefix shown before the budget total (e.g. 'FY26 budget —').">
+        <TextField value={d.budgetHeader} onChange={(v) => set({ budgetHeader: v })} placeholder="FY26 budget —" />
+      </Row>
       <Row label="Budget total"><TextField value={d.budgetTotal} onChange={(v) => set({ budgetTotal: v })} /></Row>
 
       <Row label="Headcount">
@@ -523,8 +612,21 @@ export function RisksEditor() {
   const d = data as Risks;
   return (
     <Section id="risks" number="12" title="Slide 10 — Risks">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Risks & Mitigations" />
+      </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
+
+      <Row label="Column headers" hint="Top-row headers of the risks table.">
+        <div className="grid grid-cols-3 gap-3">
+          <FieldLabel small label="Risk"><TextField value={d.columnHeaders.risk} onChange={(v) => set({ columnHeaders: { ...d.columnHeaders, risk: v } })} /></FieldLabel>
+          <FieldLabel small label="Likelihood"><TextField value={d.columnHeaders.likelihood} onChange={(v) => set({ columnHeaders: { ...d.columnHeaders, likelihood: v } })} /></FieldLabel>
+          <FieldLabel small label="Impact"><TextField value={d.columnHeaders.impact} onChange={(v) => set({ columnHeaders: { ...d.columnHeaders, impact: v } })} /></FieldLabel>
+          <FieldLabel small label="Mitigation"><TextField value={d.columnHeaders.mitigation} onChange={(v) => set({ columnHeaders: { ...d.columnHeaders, mitigation: v } })} /></FieldLabel>
+          <FieldLabel small label="Owner"><TextField value={d.columnHeaders.owner} onChange={(v) => set({ columnHeaders: { ...d.columnHeaders, owner: v } })} /></FieldLabel>
+        </div>
+      </Row>
       <Row label="Risks">
         <ListEditor
           items={d.items}
@@ -557,6 +659,9 @@ export function KPIsEditor() {
   const d = data as KPIs;
   return (
     <Section id="kpis" number="13" title="Slide 11 — KPIs">
+      <Row label="Kicker" hint="Section eyebrow above the title.">
+        <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="KPIs" />
+      </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
       <Row label="KPI tiles" hint="Sparkline values are comma-separated numbers.">
@@ -600,6 +705,15 @@ export function AsksEditor() {
   const d = data as Asks;
   return (
     <Section id="asks" number="14" title="Slide 12 — Asks">
+      <Row label="Eyebrow" hint="Top-right tag above the headline.">
+        <TextField value={d.eyebrow} onChange={(v) => set({ eyebrow: v })} placeholder="What we need from you" />
+      </Row>
+      <Row label="Headline accent" hint="Accent phrase joined to the auto-counted headline ('Three asks. No surprises.').">
+        <TextField value={d.headlineAccent} onChange={(v) => set({ headlineAccent: v })} placeholder="No surprises." />
+      </Row>
+      <Row label="Callback suffix" hint="Text after the bottom-left quoted callback to the cover hero.">
+        <TextField value={d.callbackSuffix} onChange={(v) => set({ callbackSuffix: v })} placeholder="— see slide 01." />
+      </Row>
       <Row label="Closing note" hint="Right-aligned beside the cover callback."><TextField value={d.closingNote} onChange={(v) => set({ closingNote: v })} /></Row>
       <Row label="Asks">
         <ListEditor

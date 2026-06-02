@@ -43,7 +43,8 @@ function SlideContent() {
 
         <div className="mt-24 flex flex-col gap-6">
           <span data-anim className="text-[calc(15px*var(--scale-label))] uppercase tracking-[0.32em] text-ink/60">
-            {identity.companyName} · Board Review
+            {identity.companyName}
+            {identity.coverContextLabel ? ` · ${identity.coverContextLabel}` : ""}
           </span>
 
           <h1 className="display text-[calc(148px*var(--scale-display))] leading-[0.88] tracking-tightest-display text-ink">
@@ -70,19 +71,19 @@ function SlideContent() {
           <div data-draw className="mb-6 h-px w-full bg-ink/15" />
           <div className="grid grid-cols-3 gap-12 text-[calc(14px*var(--scale-label))] uppercase tracking-[0.22em] text-ink/50">
             <div data-anim>
-              <div className="mb-1 text-ink/35">Presented by</div>
+              <div className="mb-1 text-ink/35">{identity.metaPresentedByLabel}</div>
               <div className="text-ink/85 normal-case tracking-normal text-[calc(18px*var(--scale-body))]">
                 {identity.presenter}{identity.presenterRole ? `, ${identity.presenterRole}` : ""}
               </div>
             </div>
             <div data-anim>
-              <div className="mb-1 text-ink/35">For</div>
+              <div className="mb-1 text-ink/35">{identity.metaForLabel}</div>
               <div className="text-ink/85 normal-case tracking-normal text-[calc(18px*var(--scale-body))]">
                 {identity.boardName} · {identity.planPeriod}
               </div>
             </div>
             <div data-anim>
-              <div className="mb-1 text-ink/35">Date</div>
+              <div className="mb-1 text-ink/35">{identity.metaDateLabel}</div>
               <div className="text-ink/85 normal-case tracking-normal text-[calc(18px*var(--scale-body))]">
                 {identity.date}
               </div>

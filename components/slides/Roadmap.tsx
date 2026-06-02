@@ -28,7 +28,7 @@ function SlideContent() {
         <div data-anim>
           <SlideHeader
             number="07"
-            kicker="FY26 Roadmap"
+            kicker={data.kicker}
             title={data.title}
             subtitle={data.subtitle}
           />
@@ -36,9 +36,9 @@ function SlideContent() {
 
         <div data-anim className="mt-12 border border-ink/15 bg-cream-50/60">
           <div className="grid grid-cols-[140px_repeat(4,1fr)] border-b border-ink/12 text-[14px] uppercase tracking-[0.22em] text-ink/55">
-            <div className="px-4 py-3">Pillar</div>
-            {["Q1", "Q2", "Q3", "Q4"].map((q) => (
-              <div key={q} className="border-l border-ink/10 px-4 py-3 tnum">{q}</div>
+            <div className="px-4 py-3">{data.pillarHeader}</div>
+            {data.quarterHeaders.slice(0, 4).map((q, i) => (
+              <div key={`${q}-${i}`} className="border-l border-ink/10 px-4 py-3 tnum">{q}</div>
             ))}
           </div>
 
@@ -82,9 +82,9 @@ function SlideContent() {
         </div>
 
         <div data-anim className="mt-5 flex items-center gap-6 text-[14px] uppercase tracking-[0.22em] text-ink/50">
-          <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 rounded-full bg-terracotta-300/90" /> Committed</span>
-          <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 rounded-full bg-ink/85" /> In-flight</span>
-          <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 rounded-full border border-ink/30 bg-cream-50" /> Exploratory</span>
+          <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 rounded-full bg-terracotta-300/90" /> {data.legend.committed}</span>
+          <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 rounded-full bg-ink/85" /> {data.legend.inFlight}</span>
+          <span className="flex items-center gap-2"><span className="inline-block h-2 w-3 rounded-full border border-ink/30 bg-cream-50" /> {data.legend.exploratory}</span>
         </div>
       </div>
     </SlideFit>

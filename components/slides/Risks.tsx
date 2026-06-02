@@ -28,7 +28,7 @@ function SlideContent() {
         <div data-anim>
           <SlideHeader
             number="10"
-            kicker="Risks & Mitigations"
+            kicker={data.kicker}
             title={data.title}
             subtitle={data.subtitle}
           />
@@ -36,11 +36,11 @@ function SlideContent() {
 
         <div data-anim className="mt-12 border border-ink/15 bg-cream-50/60">
           <div className="grid grid-cols-[1.6fr_120px_120px_1.6fr_140px] border-b border-ink/12 text-[14px] uppercase tracking-[0.22em] text-ink/55">
-            <div className="px-5 py-3">Risk</div>
-            <div className="border-l border-ink/10 px-5 py-3">Likelihood</div>
-            <div className="border-l border-ink/10 px-5 py-3">Impact</div>
-            <div className="border-l border-ink/10 px-5 py-3">Mitigation</div>
-            <div className="border-l border-ink/10 px-5 py-3">Owner</div>
+            <div className="px-5 py-3">{data.columnHeaders.risk}</div>
+            <div className="border-l border-ink/10 px-5 py-3">{data.columnHeaders.likelihood}</div>
+            <div className="border-l border-ink/10 px-5 py-3">{data.columnHeaders.impact}</div>
+            <div className="border-l border-ink/10 px-5 py-3">{data.columnHeaders.mitigation}</div>
+            <div className="border-l border-ink/10 px-5 py-3">{data.columnHeaders.owner}</div>
           </div>
 
           {data.items.map((r) => (

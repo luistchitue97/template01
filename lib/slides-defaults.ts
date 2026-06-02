@@ -2,6 +2,7 @@ import type { SlidesConfig } from "./customize";
 
 export const SLIDE_DEFAULTS: SlidesConfig = {
   executiveSummary: {
+    kicker: "Executive Summary",
     title: "Where we stand,\nin five numbers.",
     subtitle:
       "A snapshot at the close of FY25. The fundamentals are healthy; the curve is bending the right way; the next twelve months are about deliberate compounding, not heroics.",
@@ -20,6 +21,7 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   situation: {
+    kicker: "Situation Analysis",
     title: "An honest read of the room.",
     subtitle: "Four quadrants. No varnish. This is the picture the FY26 plan is built on.",
     quadrants: [
@@ -47,8 +49,15 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   market: {
+    kicker: "Market & Landscape",
     title: "A market that finally rewards focus.",
     subtitle: "The legacy vendors are slow; the new entrants are narrow. There is a real opening for the company that does the boring half well.",
+    axisLabels: {
+      top: "Broad",
+      bottom: "Narrow",
+      right: "Modern →",
+      left: "← Legacy",
+    },
     players: [
       { name: "Acme",       x: 0.72, y: 0.62, size: 24, self: true },
       { name: "Northwind",  x: 0.30, y: 0.78, size: 30 },
@@ -72,9 +81,11 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   priorities: {
+    kicker: "Strategic Priorities",
     title: "Three bets",
     titleAccent: "for the year.",
     subtitle: "Everything else is service to these. If a thing isn't on this slide, it doesn't get a roadmap line.",
+    pillarTag: "Pillar",
     pillars: [
       {
         roman: "I", name: "Retention",
@@ -98,6 +109,7 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   okrs: {
+    kicker: "Objectives & Key Results",
     title: "The promises behind each bet.",
     subtitle: "One objective per pillar. Three measurable results. A single accountable owner.",
     objectives: [
@@ -135,8 +147,16 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   roadmap: {
+    kicker: "FY26 Roadmap",
     title: "What ships, and when.",
     subtitle: "Three swimlanes, one per pillar. No initiative on this chart that doesn't tie to an OKR on the previous slide.",
+    pillarHeader: "Pillar",
+    quarterHeaders: ["Q1", "Q2", "Q3", "Q4"],
+    legend: {
+      committed: "Committed",
+      inFlight: "In-flight",
+      exploratory: "Exploratory",
+    },
     lanes: [
       { roman: "I",   name: "Retention" },
       { roman: "II",  name: "Margin" },
@@ -156,6 +176,7 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   financials: {
+    kicker: "Financial Plan",
     title: "$57.8M ARR.",
     titleAccent: "Positive FCF.",
     subtitle: "Free-cash-flow positive in Q4 without slowing growth. Margin discipline funds the expansion bet — not new dilution.",
@@ -165,6 +186,20 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
     gmSeries:   [76, 75, 75, 75, 74, 74, 75, 76],
     fcfSeries:  [-8, -6, -5, -6, -3, -1, 2, 4],
     planStart: 4,
+    barCard: {
+      title: "Quarterly revenue & cost",
+      unit: "$M",
+      legendActual: "Actual rev.",
+      legendPlan: "Plan rev.",
+      legendCost: "Cost",
+    },
+    lineCard: {
+      title: "Margin trajectory",
+      unit: "%",
+      legendGm: "Gross margin",
+      legendFcf: "FCF margin",
+      planDivider: "PLAN →",
+    },
     plRows: [
       { label: "ARR (exit)",      fy25: "$42.1M", fy26: "$57.8M", delta: "+37%" },
       { label: "Revenue",         fy25: "$40.2M", fy26: "$57.8M", delta: "+44%" },
@@ -176,8 +211,11 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   resources: {
+    kicker: "Resourcing the Plan",
     title: "What it costs to mean it.",
     subtitle: "38 net new hires. Budget weight shifts toward the warehouse bet without starving the core. The Q4 FCF figure already prices this in.",
+    headcountHeader: "Headcount by function",
+    budgetHeader: "FY26 budget —",
     budgetTotal: "$46.2M",
     headcount: [
       { fn: "Engineering",         current: 68, add: 14 },
@@ -197,8 +235,16 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   risks: {
+    kicker: "Risks & Mitigations",
     title: "What could derail this.",
     subtitle: "Five real risks. Each has a named owner and a way out. Reviewed in board cadence; tracked on the same dashboard as the OKRs.",
+    columnHeaders: {
+      risk: "Risk",
+      likelihood: "Likelihood",
+      impact: "Impact",
+      mitigation: "Mitigation",
+      owner: "Owner",
+    },
     items: [
       { risk: "Warehouse build slips past Q2",                          likelihood: "Med",  impact: "High", mitigation: "Two-track plan: design-partner alpha de-risked against GA. Cut scope before slipping date.", owner: "R. Mehra" },
       { risk: "Cloud cost-down underdelivers",                          likelihood: "Med",  impact: "Med",  mitigation: "Three independent bets (right-sizing, tiered storage, regional consolidation). Any two hit the number.", owner: "T. Owusu" },
@@ -209,6 +255,7 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   kpis: {
+    kicker: "KPIs",
     title: "How we'll know it's working.",
     subtitle: "The board dashboard, distilled. Eight numbers. Reviewed monthly. Nothing else gets the same airtime.",
     items: [
@@ -224,6 +271,9 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
   },
 
   asks: {
+    eyebrow: "What we need from you",
+    headlineAccent: "No surprises.",
+    callbackSuffix: "— see slide 01.",
     asks: [
       { n: "01", title: "Approve the FY26 budget envelope.",                     body: "$46.2M operating, with the people/cloud/GTM split shown on slide 09. No new dilution required." },
       { n: "02", title: "Confirm the warehouse adjacency as the one expansion bet.", body: "Endorse a single product wedge for FY26 — and the discipline of not opening a second." },

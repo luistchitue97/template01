@@ -21,7 +21,7 @@ function SlideContent() {
         <div data-anim>
           <SlideHeader
             number="05"
-            kicker="Strategic Priorities"
+            kicker={data.kicker}
             title={data.title}
             titleAccent={data.titleAccent}
             subtitle={data.subtitle}
@@ -37,7 +37,7 @@ function SlideContent() {
               <div data-draw className="mb-6 h-px w-full bg-ink/15" />
               <div className="flex items-baseline justify-between">
                 <span data-pop className="display text-terracotta-300 text-[64px] leading-none">{p.roman}</span>
-                <span data-anim className="text-[14px] uppercase tracking-[0.22em] text-ink/45">Pillar</span>
+                <span data-anim className="text-[14px] uppercase tracking-[0.22em] text-ink/45">{data.pillarTag}</span>
               </div>
               <h3 data-anim className="mt-4 display text-[34px] leading-none text-ink">{p.name}.</h3>
               <p data-anim className="mt-3 text-[20px] leading-snug text-ink/65">{p.promise}</p>

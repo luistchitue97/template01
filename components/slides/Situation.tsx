@@ -28,7 +28,7 @@ function SlideContent() {
         <div data-anim>
           <SlideHeader
             number="03"
-            kicker="Situation Analysis"
+            kicker={data.kicker}
             title={data.title}
             subtitle={data.subtitle}
           />

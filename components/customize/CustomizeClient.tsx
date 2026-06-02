@@ -468,13 +468,17 @@ function TypographyScales({
 // ── Identity grid ─────────────────────────────────────────────────────────
 
 const IDENTITY_FIELDS: { key: keyof IdentityConfig; label: string; placeholder: string }[] = [
-  { key: "companyName",    label: "Company name",   placeholder: "Acme Analytics" },
-  { key: "planTitle",      label: "Plan title",     placeholder: "Strategic Plan — FY26" },
-  { key: "planPeriod",     label: "Plan period",    placeholder: "Q4 FY25 Review" },
-  { key: "presenter",      label: "Presenter",      placeholder: "Maya Okafor" },
-  { key: "presenterRole",  label: "Presenter role", placeholder: "CEO" },
-  { key: "boardName",      label: "Audience",       placeholder: "Acme Board" },
-  { key: "date",           label: "Date",           placeholder: "May 28, 2026" },
+  { key: "companyName",           label: "Company name",      placeholder: "Acme Analytics" },
+  { key: "planTitle",             label: "Plan title",        placeholder: "Strategic Plan — FY26" },
+  { key: "planPeriod",            label: "Plan period",       placeholder: "Q4 FY25 Review" },
+  { key: "presenter",             label: "Presenter",         placeholder: "Maya Okafor" },
+  { key: "presenterRole",         label: "Presenter role",    placeholder: "CEO" },
+  { key: "boardName",             label: "Audience",          placeholder: "Acme Board" },
+  { key: "date",                  label: "Date",              placeholder: "May 28, 2026" },
+  { key: "coverContextLabel",     label: "Cover context tag", placeholder: "Board Review" },
+  { key: "metaPresentedByLabel",  label: "Cover · 'Presented by' label", placeholder: "Presented by" },
+  { key: "metaForLabel",          label: "Cover · 'For' label",          placeholder: "For" },
+  { key: "metaDateLabel",         label: "Cover · 'Date' label",         placeholder: "Date" },
 ];
 
 function IdentityFields({

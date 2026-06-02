@@ -53,6 +53,12 @@ export type IdentityConfig = {
   heroLineA: string;
   heroLineB: string;
   heroLede: string;
+  /** Suffix after companyName on the cover ("· Board Review"). */
+  coverContextLabel: string;
+  /** Bottom-grid labels on the cover. */
+  metaPresentedByLabel: string;
+  metaForLabel: string;
+  metaDateLabel: string;
 };
 
 // ── SHARED PRIMITIVES ─────────────────────────────────────────────────────
@@ -80,6 +86,7 @@ export type StatItem = {
 };
 export type ThemeBlurb = { heading: string; body: string };
 export type ExecutiveSummary = {
+  kicker: string;
   title: string;
   subtitle: string;
   stats: StatItem[];
@@ -87,7 +94,12 @@ export type ExecutiveSummary = {
 };
 
 export type Quadrant = { label: string; tone: QuadrantTone; items: string[] };
-export type Situation = { title: string; subtitle: string; quadrants: Quadrant[] };
+export type Situation = {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  quadrants: Quadrant[];
+};
 
 export type Player = {
   name: string;
@@ -97,9 +109,18 @@ export type Player = {
   self?: boolean;
 };
 export type MarketStat = { count: CountSpec; label: string; body: string };
+export type MarketAxisLabels = {
+  /** Chart-frame quadrant labels — top, bottom, right, left. */
+  top: string;
+  bottom: string;
+  right: string;
+  left: string;
+};
 export type Market = {
+  kicker: string;
   title: string;
   subtitle: string;
+  axisLabels: MarketAxisLabels;
   players: Player[];
   tam: MarketStat;
   growth: MarketStat;
@@ -114,9 +135,12 @@ export type Pillar = {
   metrics: string[];
 };
 export type Priorities = {
+  kicker: string;
   title: string;
   titleAccent?: string;
   subtitle: string;
+  /** Per-card tag shown top-right of each pillar (defaults to "Pillar"). */
+  pillarTag: string;
   pillars: Pillar[];
 };
 
@@ -128,7 +152,12 @@ export type Objective = {
   owner: string;
   krs: KR[];
 };
-export type OKRs = { title: string; subtitle: string; objectives: Objective[] };
+export type OKRs = {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  objectives: Objective[];
+};
 
 export type Lane = { roman: string; name: string };
 export type RoadmapBar = {
@@ -138,15 +167,42 @@ export type RoadmapBar = {
   span: number;
   tone: BarTone;
 };
+export type RoadmapLegend = {
+  committed: string;
+  inFlight: string;
+  exploratory: string;
+};
 export type Roadmap = {
+  kicker: string;
   title: string;
   subtitle: string;
+  /** Header for the leftmost column ("Pillar"). */
+  pillarHeader: string;
+  /** Headers for the four timeline columns ("Q1"…"Q4"). */
+  quarterHeaders: string[];
+  legend: RoadmapLegend;
   lanes: Lane[];
   bars: RoadmapBar[];
 };
 
 export type PLRow = { label: string; fy25: string; fy26: string; delta: string };
+export type FinancialsBarCard = {
+  title: string;
+  unit: string;
+  legendActual: string;
+  legendPlan: string;
+  legendCost: string;
+};
+export type FinancialsLineCard = {
+  title: string;
+  unit: string;
+  legendGm: string;
+  legendFcf: string;
+  /** Label that appears on the plan-start divider line ("PLAN →"). */
+  planDivider: string;
+};
 export type Financials = {
+  kicker: string;
   title: string;
   titleAccent?: string;
   subtitle: string;
@@ -156,14 +212,21 @@ export type Financials = {
   gmSeries: number[];
   fcfSeries: number[];
   planStart: number;
+  barCard: FinancialsBarCard;
+  lineCard: FinancialsLineCard;
   plRows: PLRow[];
 };
 
 export type HeadcountRow = { fn: string; current: number; add: number };
 export type BudgetSegment = { label: string; pct: number; color: string };
 export type Resources = {
+  kicker: string;
   title: string;
   subtitle: string;
+  /** Header above the headcount bars ("Headcount by function"). */
+  headcountHeader: string;
+  /** Prefix on the budget header ("FY26 budget — " before the total). */
+  budgetHeader: string;
   budgetTotal: string;
   headcount: HeadcountRow[];
   budget: BudgetSegment[];
@@ -177,7 +240,20 @@ export type RiskItem = {
   mitigation: string;
   owner: string;
 };
-export type Risks = { title: string; subtitle: string; items: RiskItem[] };
+export type RisksColumnHeaders = {
+  risk: string;
+  likelihood: string;
+  impact: string;
+  mitigation: string;
+  owner: string;
+};
+export type Risks = {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  columnHeaders: RisksColumnHeaders;
+  items: RiskItem[];
+};
 
 export type KPIItem = {
   label: string;
@@ -187,10 +263,24 @@ export type KPIItem = {
   series: number[];
   tone: Tone;
 };
-export type KPIs = { title: string; subtitle: string; items: KPIItem[] };
+export type KPIs = {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  items: KPIItem[];
+};
 
 export type AskItem = { n: string; title: string; body: string };
-export type Asks = { asks: AskItem[]; closingNote: string };
+export type Asks = {
+  /** Top-right eyebrow ("What we need from you"). */
+  eyebrow: string;
+  /** Accent phrase in the headline ("No surprises."). */
+  headlineAccent: string;
+  /** Suffix after the cover-hero callback quote ("— see slide 01."). */
+  callbackSuffix: string;
+  asks: AskItem[];
+  closingNote: string;
+};
 
 export type SlidesConfig = {
   executiveSummary: ExecutiveSummary;
@@ -234,6 +324,10 @@ export const DEFAULT_CONFIG: CustomizeConfig = {
     heroLineB: "of compounding.",
     heroLede:
       "FY26 is a year for getting boring things right — keeping the customers we have, widening every gap between revenue and cost, and earning the right to expand into one new segment.",
+    coverContextLabel: "Board Review",
+    metaPresentedByLabel: "Presented by",
+    metaForLabel: "For",
+    metaDateLabel: "Date",
   },
   typography: DEFAULT_TYPOGRAPHY,
   slides: SLIDE_DEFAULTS,

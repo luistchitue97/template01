@@ -41,13 +41,13 @@ function SlideContent() {
         <div className="flex items-baseline justify-between">
           <span data-anim className="display text-terracotta-300 text-[calc(18px*var(--scale-label))] tnum">No. 12</span>
           <Eyebrow accent>
-            <span data-anim>What we need from you</span>
+            <span data-anim>{data.eyebrow}</span>
           </Eyebrow>
         </div>
 
         <h2 className="mt-14 display text-[calc(112px*var(--scale-display))] leading-[0.92] tracking-tightest-display text-ink">
           <Words text={`${data.asks.length === 1 ? "One ask." : `${spellOut(data.asks.length)} asks.`}`} />
-          <Words text="No surprises." accent />
+          <Words text={data.headlineAccent} accent />
         </h2>
 
         <div
@@ -68,7 +68,7 @@ function SlideContent() {
           <div data-draw className="mb-6 h-px w-full bg-ink/15" />
           <div className="flex items-center justify-between">
             <p data-anim className="display text-[calc(24px*var(--scale-subtitle))] text-ink/65">
-              <em>&ldquo;{callback}&rdquo;</em> — see slide 01.
+              <em>&ldquo;{callback}&rdquo;</em> {data.callbackSuffix}
             </p>
             <span data-anim className="text-[calc(14px*var(--scale-label))] uppercase tracking-[0.22em] text-ink/45">
               {data.closingNote}
