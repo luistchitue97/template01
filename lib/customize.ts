@@ -315,6 +315,10 @@ export type SlidesConfig = {
   /** Labels shown in the deck navigator (bottom-left + dot tooltips). One per
       slide, in deck order. */
   navLabels: string[];
+  /** Zero-based indexes of slides to omit from the rendered deck. The full
+      slide list (12 entries) is always defined by app/page.tsx; this only
+      filters which of them appear at runtime. */
+  hiddenSlideIndexes: number[];
 };
 
 export type CustomizeConfig = {
@@ -440,6 +444,11 @@ export function mergeSlides(saved: Partial<SlidesConfig> | undefined): SlidesCon
     asks:             { ...d.asks,             ...(saved.asks ?? {}) },
     // Pad with defaults if the saved array is shorter than the current deck.
     navLabels: d.navLabels.map((def, i) => savedLabels?.[i] ?? def),
+    hiddenSlideIndexes: Array.isArray(saved.hiddenSlideIndexes)
+      ? saved.hiddenSlideIndexes.filter(
+          (n): n is number => typeof n === "number" && Number.isFinite(n),
+        )
+      : d.hiddenSlideIndexes,
   };
 }
 

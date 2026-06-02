@@ -22,23 +22,48 @@ type SlideDeckProps = {
 };
 
 export function SlideDeck({ children, customizeHref }: SlideDeckProps) {
-  const slides = useMemo(() => {
+  const allSlides = useMemo(() => {
     return Children.toArray(children).filter((c): c is ReactElement<SlideProps> =>
       isValidElement(c),
     );
   }, [children]);
-  const total = slides.length;
-  const navLabels = useCustomize().config.slides.navLabels;
-  const labels = useMemo(
-    () =>
-      slides.map(
-        (s, i) => navLabels?.[i] ?? s.props.label ?? `Slide ${i + 1}`,
-      ),
-    [slides, navLabels],
+  const { navLabels, hiddenSlideIndexes } = useCustomize().config.slides;
+  const hiddenSet = useMemo(
+    () => new Set(hiddenSlideIndexes ?? []),
+    [hiddenSlideIndexes],
   );
+
+  // Filter out hidden slides + their labels using their absolute index in
+  // the source deck so the navigator/labels stay correctly aligned. We also
+  // track the original (pre-filter) index per visible slide so React keys
+  // stay stable across visibility toggles — otherwise toggling a slide on
+  // and off would cause sibling slides to re-mount and replay their intros.
+  const { slides, labels, sourceIndexes } = useMemo(() => {
+    const visible: ReactElement<SlideProps>[] = [];
+    const visibleLabels: string[] = [];
+    const visibleSource: number[] = [];
+    allSlides.forEach((s, i) => {
+      if (hiddenSet.has(i)) return;
+      visible.push(s);
+      visibleLabels.push(navLabels?.[i] ?? s.props.label ?? `Slide ${i + 1}`);
+      visibleSource.push(i);
+    });
+    return { slides: visible, labels: visibleLabels, sourceIndexes: visibleSource };
+  }, [allSlides, hiddenSet, navLabels]);
+  const total = slides.length;
 
   const [current, setCurrent] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Clamp the current index whenever the visible deck shrinks (e.g. the
+  // user just hid the slide they were viewing). Guard against total=0.
+  useEffect(() => {
+    if (total === 0) {
+      if (current !== 0) setCurrent(0);
+      return;
+    }
+    if (current > total - 1) setCurrent(total - 1);
+  }, [total, current]);
 
   const go = useCallback(
     (n: number) => {
@@ -178,7 +203,7 @@ export function SlideDeck({ children, customizeHref }: SlideDeckProps) {
         >
           {slides.map((child, i) => (
             <SlideContext.Provider
-              key={i}
+              key={sourceIndexes[i]}
               value={{ index: i, total, isActive: i === current }}
             >
               {child}

@@ -60,6 +60,81 @@ const NAV: { id: string; label: string }[] = [
   { id: "asks",        label: "12 · Asks" },
 ];
 
+function SlideVisibilityGrid({
+  labels,
+  hiddenSlideIndexes,
+  onChange,
+}: {
+  labels: string[];
+  hiddenSlideIndexes: number[];
+  onChange: (next: number[]) => void;
+}) {
+  const hiddenSet = new Set(hiddenSlideIndexes);
+  const visibleCount = labels.length - hiddenSet.size;
+  const toggle = (i: number) => {
+    const next = new Set(hiddenSet);
+    if (next.has(i)) {
+      next.delete(i);
+    } else {
+      // Refuse to hide the last visible slide — an empty deck is a dead end.
+      if (visibleCount <= 1) return;
+      next.add(i);
+    }
+    onChange(Array.from(next).sort((a, b) => a - b));
+  };
+
+  return (
+    <div className="space-y-2">
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+        {labels.map((label, i) => {
+          const visible = !hiddenSet.has(i);
+          const disabled = visible && visibleCount <= 1;
+          return (
+            <button
+              key={i}
+              type="button"
+              onClick={() => toggle(i)}
+              disabled={disabled}
+              aria-pressed={visible}
+              className={cn(
+                "flex items-center gap-3 rounded-md border px-3 py-2 text-left transition",
+                visible
+                  ? "border-ink/20 bg-cream-50/60 text-ink hover:border-ink/45"
+                  : "border-dashed border-ink/15 bg-transparent text-ink/40 hover:border-ink/35 hover:text-ink/65",
+                disabled && "cursor-not-allowed opacity-60",
+              )}
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "grid h-4 w-4 shrink-0 place-items-center rounded-sm border transition",
+                  visible
+                    ? "border-terracotta-300 bg-terracotta-300 text-cream"
+                    : "border-ink/25 bg-transparent text-transparent",
+                )}
+              >
+                <svg viewBox="0 0 10 10" className="h-2.5 w-2.5" fill="none">
+                  <path d="M1.5 5.2 L4 7.5 L8.5 2.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <span className="w-7 shrink-0 text-[10.5px] uppercase tracking-[0.22em] text-ink/45 tnum">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="flex-1 text-[13px]">{label}</span>
+              {!visible ? (
+                <span className="text-[10px] uppercase tracking-[0.22em] text-ink/35">Hidden</span>
+              ) : null}
+            </button>
+          );
+        })}
+      </div>
+      <p className="text-[10.5px] leading-snug text-ink/45">
+        {visibleCount} of {labels.length} slides visible. At least one slide must stay visible.
+      </p>
+    </div>
+  );
+}
+
 function NavLabelsGrid({
   labels,
   onChange,
@@ -202,6 +277,13 @@ export function CustomizeClient() {
 
         {/* Deck navigation */}
         <Section id="nav" number="05" title="Deck navigation">
+          <Row label="Visible slides" hint="Uncheck a slide to omit it from the rendered deck. The dot navigator and counter update automatically.">
+            <SlideVisibilityGrid
+              labels={config.slides.navLabels}
+              hiddenSlideIndexes={config.slides.hiddenSlideIndexes}
+              onChange={(hiddenSlideIndexes) => update({ slides: { hiddenSlideIndexes } })}
+            />
+          </Row>
           <Row label="Slide labels" hint="Shown in the bottom-left of every slide and as dot-navigator tooltips. One per slide, in deck order.">
             <NavLabelsGrid
               labels={config.slides.navLabels}

@@ -302,4 +302,6 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
     "KPIs",
     "Asks & Next Steps",
   ],
+
+  hiddenSlideIndexes: [],
 };
