@@ -6,11 +6,11 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
     subtitle:
       "A snapshot at the close of FY25. The fundamentals are healthy; the curve is bending the right way; the next twelve months are about deliberate compounding, not heroics.",
     stats: [
-      { label: "ARR",                  value: "$42.1M", count: { to: 42.1, prefix: "$", suffix: "M", decimals: 1 }, delta: "▲ 18.4% YoY", deltaTone: "up" },
-      { label: "Net Revenue Retention",value: "118%",   count: { to: 118, suffix: "%" },                            delta: "▲ 3.2 pt",    deltaTone: "up" },
-      { label: "Gross Margin",         value: "74%",    count: { to: 74,  suffix: "%" },                            delta: "▼ 0.8 pt",    deltaTone: "down" },
-      { label: "Magic Number",         value: "1.3",    count: { to: 1.3, decimals: 1 },                             delta: "▲ 0.2",       deltaTone: "up" },
-      { label: "Headcount",            value: "186",    count: { to: 186 },                                           delta: "+24 hires",   deltaTone: "neutral" },
+      { label: "ARR",                  value: "$42.1M", count: { to: 42.1, prefix: "$", suffix: "M", decimals: 1 }, delta: "18.4% YoY", deltaTone: "up" },
+      { label: "Net Revenue Retention",value: "118%",   count: { to: 118, suffix: "%" },                            delta: "3.2 pt",    deltaTone: "up" },
+      { label: "Gross Margin",         value: "74%",    count: { to: 74,  suffix: "%" },                            delta: "0.8 pt",    deltaTone: "down" },
+      { label: "Magic Number",         value: "1.3",    count: { to: 1.3, decimals: 1 },                             delta: "0.2",       deltaTone: "up" },
+      { label: "Headcount",            value: "186",    count: { to: 186 },                                           delta: "+24 hires", deltaTone: "neutral" },
     ],
     blurbs: [
       { heading: "Strong base",        body: "Gross retention is at an all-time high; the product is sticky in the segments we've picked." },

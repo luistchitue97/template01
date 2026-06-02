@@ -21,6 +21,7 @@ import {
   Row,
   ScaleField,
   Section,
+  TextArea,
   TextField,
 } from "@/components/customize/widgets";
 import {
@@ -157,6 +158,14 @@ export function CustomizeClient() {
               value={identity.heroLineB}
               onChange={(v) => update({ identity: { heroLineB: v } })}
               placeholder="of compounding."
+            />
+          </Row>
+          <Row label="Lede paragraph" hint="The summary paragraph beneath the hero lines.">
+            <TextArea
+              value={identity.heroLede}
+              onChange={(v) => update({ identity: { heroLede: v } })}
+              rows={4}
+              placeholder="FY26 is a year for getting boring things right…"
             />
           </Row>
         </Section>

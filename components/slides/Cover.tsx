@@ -62,9 +62,7 @@ function SlideContent() {
             data-anim
             className="mt-2 max-w-[58ch] text-[calc(24px*var(--scale-subtitle))] leading-snug text-ink/70"
           >
-            FY26 is a year for getting boring things right — keeping the
-            customers we have, widening every gap between revenue and cost,
-            and earning the right to expand into one new segment.
+            {identity.heroLede}
           </p>
         </div>
 

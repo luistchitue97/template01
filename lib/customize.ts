@@ -52,6 +52,7 @@ export type IdentityConfig = {
   date: string;
   heroLineA: string;
   heroLineB: string;
+  heroLede: string;
 };
 
 // ── SHARED PRIMITIVES ─────────────────────────────────────────────────────
@@ -231,6 +232,8 @@ export const DEFAULT_CONFIG: CustomizeConfig = {
     date: "May 28, 2026",
     heroLineA: "A quiet year",
     heroLineB: "of compounding.",
+    heroLede:
+      "FY26 is a year for getting boring things right — keeping the customers we have, widening every gap between revenue and cost, and earning the right to expand into one new segment.",
   },
   typography: DEFAULT_TYPOGRAPHY,
   slides: SLIDE_DEFAULTS,

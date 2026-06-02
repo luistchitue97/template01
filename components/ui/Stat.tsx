@@ -33,6 +33,14 @@ export function Stat({
       ? "text-terracotta-400"
       : "text-ink/50";
 
+  const toneGlyph =
+    deltaTone === "up" ? "▲" : deltaTone === "down" ? "▼" : "";
+
+  // Strip any leading direction glyph the user (or a default) typed into the
+  // caption, so the indicator stays in sync with `deltaTone` instead of
+  // showing two arrows or a mismatched one.
+  const deltaText = delta ? delta.replace(/^[\s▲▼△▽↑↓⬆⬇]+/, "") : "";
+
   const initialText = count ? formatCount(count) : (value ?? "");
 
   return (
@@ -51,7 +59,12 @@ export function Stat({
       ) : (
         <span className="display text-[calc(44px*var(--scale-title))] leading-none text-ink tnum">{value}</span>
       )}
-      {delta ? <span className={cn("text-[calc(14px*var(--scale-label))] tnum", toneClass)}>{delta}</span> : null}
+      {delta ? (
+        <span className={cn("inline-flex items-baseline gap-1.5 text-[calc(14px*var(--scale-label))] tnum", toneClass)}>
+          {toneGlyph ? <span aria-hidden>{toneGlyph}</span> : null}
+          <span>{deltaText}</span>
+        </span>
+      ) : null}
     </div>
   );
 }

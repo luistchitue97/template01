@@ -70,10 +70,15 @@ function strToNumArr(s: string): number[] {
 }
 
 const TONE_OPTIONS: { value: Tone; label: string }[] = [
-  { value: "up", label: "Up" },
-  { value: "down", label: "Down" },
-  { value: "neutral", label: "Neutral" },
+  { value: "up",      label: "▲ Up" },
+  { value: "down",    label: "▼ Down" },
+  { value: "neutral", label: "— Neutral" },
 ];
+
+/** Strip any leading direction glyph + whitespace from a caption string. */
+function stripLeadingArrow(s: string): string {
+  return s.replace(/^[\s▲▼△▽↑↓⬆⬇]+/, "");
+}
 const SEV_OPTIONS: { value: Severity; label: string }[] = [
   { value: "Low",  label: "Low" },
   { value: "Med",  label: "Med" },
@@ -126,12 +131,23 @@ export function ExecutiveSummaryEditor() {
               </FieldLabel>
               <div className="grid grid-cols-[1fr_180px] gap-3">
                 <FieldLabel label="Delta caption">
-                  <TextField value={s.delta ?? ""} onChange={(v) => upd({ delta: v })} placeholder="▲ 18.4% YoY" />
+                  <TextField
+                    value={stripLeadingArrow(s.delta ?? "")}
+                    onChange={(v) => upd({ delta: stripLeadingArrow(v) })}
+                    placeholder="18.4% YoY"
+                  />
                 </FieldLabel>
                 <FieldLabel label="Tone">
-                  <SelectField value={s.deltaTone ?? "neutral"} onChange={(v) => upd({ deltaTone: v })} options={TONE_OPTIONS} />
+                  <SelectField
+                    value={s.deltaTone ?? "neutral"}
+                    onChange={(v) => upd({ deltaTone: v, delta: stripLeadingArrow(s.delta ?? "") })}
+                    options={TONE_OPTIONS}
+                  />
                 </FieldLabel>
               </div>
+              <p className="text-[10.5px] leading-snug text-ink/45">
+                The ▲ / ▼ growth indicator is drawn from the tone above — leave it out of the caption text.
+              </p>
             </>
           )}
         />
