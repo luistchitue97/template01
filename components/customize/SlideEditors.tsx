@@ -656,17 +656,51 @@ function NumberSeriesRow({
   values: number[];
   onChange: (next: number[]) => void;
 }) {
+  const setAt = (i: number, n: number) =>
+    onChange(values.map((v, idx) => (idx === i ? n : v)));
+  const removeAt = (i: number) => onChange(values.filter((_, idx) => idx !== i));
+  const add = () => {
+    const last = values[values.length - 1];
+    onChange([...values, Number.isFinite(last) ? last : 0]);
+  };
   return (
-    <Row label={label}>
-      <TextField
-        value={values.join(", ")}
-        onChange={(v) =>
-          onChange(
-            v.split(/[,\s]+/).map((s) => Number.parseFloat(s)).filter((n) => Number.isFinite(n)),
-          )
-        }
-        placeholder="8.6, 9.4, 10.4, …"
-      />
+    <Row label={label} hint="One value per quarter. Use ± to add or remove entries.">
+      <div className="flex flex-wrap items-end gap-2">
+        {values.map((v, i) => (
+          <div key={i} className="flex flex-col items-center gap-1">
+            <div className="flex items-center gap-1 rounded-md border border-ink/15 px-2 py-1 focus-within:border-terracotta-300">
+              <input
+                type="number"
+                value={Number.isFinite(v) ? v : 0}
+                step={0.1}
+                onChange={(e) => {
+                  const n = e.target.valueAsNumber;
+                  setAt(i, Number.isFinite(n) ? n : 0);
+                }}
+                className="w-16 bg-transparent text-[13px] tnum text-ink outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => removeAt(i)}
+                aria-label={`Remove entry ${i + 1}`}
+                className="grid h-5 w-5 place-items-center rounded-full text-[12px] text-ink/45 transition hover:text-terracotta-300"
+              >
+                ×
+              </button>
+            </div>
+            <span className="text-[9px] uppercase tracking-[0.18em] text-ink/35 tnum">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={add}
+          className="inline-flex h-[34px] items-center gap-1.5 rounded-md border border-dashed border-ink/30 px-3 text-[10.5px] uppercase tracking-[0.18em] text-ink/65 transition hover:border-terracotta-300 hover:text-terracotta-300"
+        >
+          + Add
+        </button>
+      </div>
     </Row>
   );
 }
