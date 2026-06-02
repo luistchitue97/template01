@@ -14,6 +14,7 @@ import {
 import { DeckChrome } from "./DeckChrome";
 import { DeckNavContext, SlideContext, type DeckNavContextValue } from "./contexts";
 import type { SlideProps } from "./Slide";
+import { useCustomize } from "@/components/customize/CustomizeProvider";
 
 type SlideDeckProps = {
   children: ReactNode;
@@ -27,7 +28,14 @@ export function SlideDeck({ children, customizeHref }: SlideDeckProps) {
     );
   }, [children]);
   const total = slides.length;
-  const labels = useMemo(() => slides.map((s, i) => s.props.label ?? `Slide ${i + 1}`), [slides]);
+  const navLabels = useCustomize().config.slides.navLabels;
+  const labels = useMemo(
+    () =>
+      slides.map(
+        (s, i) => navLabels?.[i] ?? s.props.label ?? `Slide ${i + 1}`,
+      ),
+    [slides, navLabels],
+  );
 
   const [current, setCurrent] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);

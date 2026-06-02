@@ -99,8 +99,8 @@ function LineChartCard({ data }: { data: Financials }) {
   const innerW = W - padL - padR;
   const innerH = H - padT - padB;
 
-  const yMin = -15;
-  const yMax = 85;
+  const yMin = data.lineCard.yMin;
+  const yMax = data.lineCard.yMax;
 
   const xAt = (i: number) =>
     data.quarters.length <= 1 ? padL : padL + (i / (data.quarters.length - 1)) * innerW;
@@ -111,7 +111,7 @@ function LineChartCard({ data }: { data: Financials }) {
       .map((v, i) => `${i === 0 ? "M" : "L"} ${xAt(i).toFixed(1)} ${yAt(v).toFixed(1)}`)
       .join(" ");
 
-  const gridYs = [0, 25, 50, 75];
+  const gridYs = data.lineCard.yGridTicks;
   const planDividerX = xAt(Math.max(0, data.planStart - 0.5));
   const lastGm = data.gmSeries[data.gmSeries.length - 1] ?? 0;
   const lastFcf = data.fcfSeries[data.fcfSeries.length - 1] ?? 0;

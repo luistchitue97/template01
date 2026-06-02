@@ -141,6 +141,8 @@ export type Priorities = {
   subtitle: string;
   /** Per-card tag shown top-right of each pillar (defaults to "Pillar"). */
   pillarTag: string;
+  /** Punctuation appended after each pillar's name (defaults to "."). */
+  namePunctuation: string;
   pillars: Pillar[];
 };
 
@@ -156,6 +158,8 @@ export type OKRs = {
   kicker: string;
   title: string;
   subtitle: string;
+  /** Prefix on each KR badge (defaults to "KR"). */
+  krPrefix: string;
   objectives: Objective[];
 };
 
@@ -200,6 +204,12 @@ export type FinancialsLineCard = {
   legendFcf: string;
   /** Label that appears on the plan-start divider line ("PLAN →"). */
   planDivider: string;
+  /** Lower bound of the line chart Y axis. */
+  yMin: number;
+  /** Upper bound of the line chart Y axis. */
+  yMax: number;
+  /** Tick values along the Y axis (drawn as horizontal grid lines + labels). */
+  yGridTicks: number[];
 };
 export type Financials = {
   kicker: string;
@@ -271,9 +281,17 @@ export type KPIs = {
 };
 
 export type AskItem = { n: string; title: string; body: string };
+export type AsksHeadlineNoun = {
+  /** Used when there's exactly one ask, e.g. "ask" → "One ask." */
+  singular: string;
+  /** Used when there are 2+ asks, e.g. "asks" → "Three asks." */
+  plural: string;
+};
 export type Asks = {
   /** Top-right eyebrow ("What we need from you"). */
   eyebrow: string;
+  /** Noun used in the auto-counted headline. The number is auto-spelled. */
+  headlineNoun: AsksHeadlineNoun;
   /** Accent phrase in the headline ("No surprises."). */
   headlineAccent: string;
   /** Suffix after the cover-hero callback quote ("— see slide 01."). */
@@ -294,6 +312,9 @@ export type SlidesConfig = {
   risks: Risks;
   kpis: KPIs;
   asks: Asks;
+  /** Labels shown in the deck navigator (bottom-left + dot tooltips). One per
+      slide, in deck order. */
+  navLabels: string[];
 };
 
 export type CustomizeConfig = {
@@ -404,6 +425,7 @@ export function loadConfig(): CustomizeConfig {
 export function mergeSlides(saved: Partial<SlidesConfig> | undefined): SlidesConfig {
   const d = DEFAULT_CONFIG.slides;
   if (!saved) return d;
+  const savedLabels = Array.isArray(saved.navLabels) ? saved.navLabels : null;
   return {
     executiveSummary: { ...d.executiveSummary, ...(saved.executiveSummary ?? {}) },
     situation:        { ...d.situation,        ...(saved.situation ?? {}) },
@@ -416,6 +438,8 @@ export function mergeSlides(saved: Partial<SlidesConfig> | undefined): SlidesCon
     risks:            { ...d.risks,            ...(saved.risks ?? {}) },
     kpis:             { ...d.kpis,             ...(saved.kpis ?? {}) },
     asks:             { ...d.asks,             ...(saved.asks ?? {}) },
+    // Pad with defaults if the saved array is shorter than the current deck.
+    navLabels: d.navLabels.map((def, i) => savedLabels?.[i] ?? def),
   };
 }
 

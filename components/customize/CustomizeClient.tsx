@@ -46,6 +46,7 @@ const NAV: { id: string; label: string }[] = [
   { id: "typography",  label: "Typography" },
   { id: "identity",    label: "Identity" },
   { id: "hero",        label: "Cover hero" },
+  { id: "nav",         label: "Deck navigation" },
   { id: "exec",        label: "02 · Exec summary" },
   { id: "situation",   label: "03 · Where we stand" },
   { id: "market",      label: "04 · Market" },
@@ -58,6 +59,35 @@ const NAV: { id: string; label: string }[] = [
   { id: "kpis",        label: "11 · KPIs" },
   { id: "asks",        label: "12 · Asks" },
 ];
+
+function NavLabelsGrid({
+  labels,
+  onChange,
+}: {
+  labels: string[];
+  onChange: (next: string[]) => void;
+}) {
+  return (
+    <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+      {labels.map((label, i) => (
+        <div key={i} className="flex items-baseline gap-3">
+          <span className="w-7 shrink-0 text-[10.5px] uppercase tracking-[0.22em] text-ink/45 tnum">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <TextField
+            value={label}
+            onChange={(v) => {
+              const next = [...labels];
+              next[i] = v;
+              onChange(next);
+            }}
+            placeholder={`Slide ${i + 1}`}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function CustomizeClient() {
   const { config, update, reset, serverBacked } = useCustomize();
@@ -166,6 +196,16 @@ export function CustomizeClient() {
               onChange={(v) => update({ identity: { heroLede: v } })}
               rows={4}
               placeholder="FY26 is a year for getting boring things right…"
+            />
+          </Row>
+        </Section>
+
+        {/* Deck navigation */}
+        <Section id="nav" number="05" title="Deck navigation">
+          <Row label="Slide labels" hint="Shown in the bottom-left of every slide and as dot-navigator tooltips. One per slide, in deck order.">
+            <NavLabelsGrid
+              labels={config.slides.navLabels}
+              onChange={(navLabels) => update({ slides: { navLabels } })}
             />
           </Row>
         </Section>

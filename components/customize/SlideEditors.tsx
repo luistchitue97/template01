@@ -302,6 +302,9 @@ export function PrioritiesEditor() {
       <Row label="Pillar tag" hint="Per-card label shown top-right of each pillar.">
         <TextField value={d.pillarTag} onChange={(v) => set({ pillarTag: v })} placeholder="Pillar" />
       </Row>
+      <Row label="Name punctuation" hint="Appended after each pillar's name (e.g. '.', '!', or '').">
+        <TextField value={d.namePunctuation} onChange={(v) => set({ namePunctuation: v })} placeholder="." />
+      </Row>
       <Row label="Pillars">
         <ListEditor
           items={d.pillars}
@@ -342,6 +345,9 @@ export function OKRsEditor() {
       </Row>
       <Row label="Title"><TextField value={d.title} onChange={(v) => set({ title: v })} /></Row>
       <Row label="Subtitle"><TextArea value={d.subtitle} onChange={(v) => set({ subtitle: v })} /></Row>
+      <Row label="KR prefix" hint="Prefix on each key-result badge (KR1, KR2…).">
+        <TextField value={d.krPrefix} onChange={(v) => set({ krPrefix: v })} placeholder="KR" />
+      </Row>
       <Row label="Objectives">
         <ListEditor
           items={d.objectives}
@@ -505,6 +511,30 @@ export function FinancialsEditor() {
           <FieldLabel small label="Legend · FCF margin"><TextField value={d.lineCard.legendFcf} onChange={(v) => set({ lineCard: { ...d.lineCard, legendFcf: v } })} /></FieldLabel>
           <FieldLabel small label="Plan divider label"><TextField value={d.lineCard.planDivider} onChange={(v) => set({ lineCard: { ...d.lineCard, planDivider: v } })} /></FieldLabel>
         </div>
+      </Row>
+
+      <Row label="Line chart Y axis" hint="Bounds + grid tick values for the margin trajectory chart.">
+        <div className="grid grid-cols-2 gap-3">
+          <FieldLabel small label="Y min"><NumberField value={d.lineCard.yMin} step={1} onChange={(n) => set({ lineCard: { ...d.lineCard, yMin: n } })} /></FieldLabel>
+          <FieldLabel small label="Y max"><NumberField value={d.lineCard.yMax} step={1} onChange={(n) => set({ lineCard: { ...d.lineCard, yMax: n } })} /></FieldLabel>
+        </div>
+        <FieldLabel small label="Y grid ticks (comma-separated)">
+          <TextField
+            value={d.lineCard.yGridTicks.join(", ")}
+            onChange={(v) =>
+              set({
+                lineCard: {
+                  ...d.lineCard,
+                  yGridTicks: v
+                    .split(/[,\s]+/)
+                    .map((s) => Number.parseFloat(s))
+                    .filter((n) => Number.isFinite(n)),
+                },
+              })
+            }
+            placeholder="0, 25, 50, 75"
+          />
+        </FieldLabel>
       </Row>
 
       <Row label="Quarters" hint="Comma-separated labels (e.g. Q1·25, Q2·25, …).">
@@ -707,6 +737,12 @@ export function AsksEditor() {
     <Section id="asks" number="14" title="Slide 12 — Asks">
       <Row label="Eyebrow" hint="Top-right tag above the headline.">
         <TextField value={d.eyebrow} onChange={(v) => set({ eyebrow: v })} placeholder="What we need from you" />
+      </Row>
+      <Row label="Headline noun" hint="Word used in the auto-counted headline. Singular: 'One {noun}.'; plural: '{N} {noun}s.'">
+        <div className="grid grid-cols-2 gap-3">
+          <FieldLabel small label="Singular"><TextField value={d.headlineNoun.singular} onChange={(v) => set({ headlineNoun: { ...d.headlineNoun, singular: v } })} placeholder="ask" /></FieldLabel>
+          <FieldLabel small label="Plural"><TextField value={d.headlineNoun.plural} onChange={(v) => set({ headlineNoun: { ...d.headlineNoun, plural: v } })} placeholder="asks" /></FieldLabel>
+        </div>
       </Row>
       <Row label="Headline accent" hint="Accent phrase joined to the auto-counted headline ('Three asks. No surprises.').">
         <TextField value={d.headlineAccent} onChange={(v) => set({ headlineAccent: v })} placeholder="No surprises." />

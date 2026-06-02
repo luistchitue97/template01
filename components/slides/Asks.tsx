@@ -46,7 +46,13 @@ function SlideContent() {
         </div>
 
         <h2 className="mt-14 display text-[calc(112px*var(--scale-display))] leading-[0.92] tracking-tightest-display text-ink">
-          <Words text={`${data.asks.length === 1 ? "One ask." : `${spellOut(data.asks.length)} asks.`}`} />
+          <Words
+            text={
+              data.asks.length === 1
+                ? `One ${data.headlineNoun.singular}.`
+                : `${spellOut(data.asks.length)} ${data.headlineNoun.plural}.`
+            }
+          />
           <Words text={data.headlineAccent} accent />
         </h2>
 

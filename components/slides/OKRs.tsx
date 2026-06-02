@@ -51,7 +51,7 @@ function SlideContent() {
                   {o.krs.map((kr, i) => (
                     <div key={kr.text} className="flex items-baseline gap-4">
                       <dt data-pop className="display text-terracotta-300 text-[19px] tnum w-6">
-                        KR{i + 1}
+                        {data.krPrefix}{i + 1}
                       </dt>
                       <div className="flex-1">
                         <div className="text-[17px] leading-snug text-ink/85">{kr.text}</div>

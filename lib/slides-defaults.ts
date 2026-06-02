@@ -86,6 +86,7 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
     titleAccent: "for the year.",
     subtitle: "Everything else is service to these. If a thing isn't on this slide, it doesn't get a roadmap line.",
     pillarTag: "Pillar",
+    namePunctuation: ".",
     pillars: [
       {
         roman: "I", name: "Retention",
@@ -112,6 +113,7 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
     kicker: "Objectives & Key Results",
     title: "The promises behind each bet.",
     subtitle: "One objective per pillar. Three measurable results. A single accountable owner.",
+    krPrefix: "KR",
     objectives: [
       {
         pillar: "Retention", pillarRoman: "I",
@@ -199,6 +201,9 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
       legendGm: "Gross margin",
       legendFcf: "FCF margin",
       planDivider: "PLAN →",
+      yMin: -15,
+      yMax: 85,
+      yGridTicks: [0, 25, 50, 75],
     },
     plRows: [
       { label: "ARR (exit)",      fy25: "$42.1M", fy26: "$57.8M", delta: "+37%" },
@@ -272,6 +277,7 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
 
   asks: {
     eyebrow: "What we need from you",
+    headlineNoun: { singular: "ask", plural: "asks" },
     headlineAccent: "No surprises.",
     callbackSuffix: "— see slide 01.",
     asks: [
@@ -281,4 +287,19 @@ export const SLIDE_DEFAULTS: SlidesConfig = {
     ],
     closingNote: "Thank you · Q&A",
   },
+
+  navLabels: [
+    "Cover",
+    "Executive Summary",
+    "Where We Stand",
+    "The Market",
+    "Strategic Priorities",
+    "OKRs",
+    "Roadmap",
+    "Financial Plan",
+    "Resourcing",
+    "Risks",
+    "KPIs",
+    "Asks & Next Steps",
+  ],
 };
