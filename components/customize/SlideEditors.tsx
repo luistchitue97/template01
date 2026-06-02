@@ -1,6 +1,7 @@
 "use client";
 
 import { useCustomize } from "./CustomizeProvider";
+import { cn } from "@/lib/cn";
 import {
   CountSpecEditor,
   FieldLabel,
@@ -57,6 +58,70 @@ function useSliceUpdater<K extends keyof SlidesConfig>(key: K) {
   return [value, set] as const;
 }
 
+// ── visibility toggle (one row at the top of every per-slide editor) ─────
+
+/**
+ * Drives `hiddenSlideIndexes` on the slides config. Refuses to hide the
+ * last visible slide — the deck has to render something.
+ */
+function SlideVisibilityToggle({ slideIndex }: { slideIndex: number }) {
+  const { config, update } = useCustomize();
+  const hidden = config.slides.hiddenSlideIndexes ?? [];
+  const isHidden = hidden.includes(slideIndex);
+  const visibleCount = config.slides.navLabels.length - hidden.length;
+  const wouldEmptyDeck = !isHidden && visibleCount <= 1;
+
+  const onToggle = () => {
+    if (wouldEmptyDeck) return;
+    const next = isHidden
+      ? hidden.filter((i) => i !== slideIndex)
+      : [...hidden, slideIndex].sort((a, b) => a - b);
+    update({ slides: { hiddenSlideIndexes: next } });
+  };
+
+  return (
+    <Row
+      label="Show in deck"
+      hint={
+        wouldEmptyDeck
+          ? "Can't hide — at least one slide must stay visible."
+          : "Toggle off to drop this slide from the rendered presentation."
+      }
+    >
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          role="switch"
+          aria-checked={!isHidden}
+          disabled={wouldEmptyDeck}
+          onClick={onToggle}
+          className={cn(
+            "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition",
+            isHidden ? "bg-ink/15" : "bg-terracotta-300",
+            wouldEmptyDeck && "cursor-not-allowed opacity-60",
+          )}
+        >
+          <span
+            aria-hidden
+            className={cn(
+              "inline-block h-4 w-4 transform rounded-full bg-cream-50 shadow transition-transform",
+              isHidden ? "translate-x-1" : "translate-x-6",
+            )}
+          />
+        </button>
+        <span
+          className={cn(
+            "text-[12px] uppercase tracking-[0.22em]",
+            isHidden ? "text-ink/45" : "text-ink/75",
+          )}
+        >
+          {isHidden ? "Hidden" : "Visible"}
+        </span>
+      </div>
+    </Row>
+  );
+}
+
 // Convert an array of numbers to a comma-separated string for editing, and
 // back. Filters out NaN.
 function numArrToStr(arr: number[]): string {
@@ -104,6 +169,7 @@ export function ExecutiveSummaryEditor() {
   const d = data as ExecutiveSummary;
   return (
     <Section id="exec" number="04" title="Slide 02 — Executive summary">
+      <SlideVisibilityToggle slideIndex={1} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Executive Summary" />
       </Row>
@@ -182,6 +248,7 @@ export function SituationEditor() {
   const d = data as Situation;
   return (
     <Section id="situation" number="05" title="Slide 03 — Where we stand">
+      <SlideVisibilityToggle slideIndex={2} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Situation Analysis" />
       </Row>
@@ -222,6 +289,7 @@ export function MarketEditor() {
   const d = data as Market;
   return (
     <Section id="market" number="06" title="Slide 04 — Market & landscape">
+      <SlideVisibilityToggle slideIndex={3} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Market & Landscape" />
       </Row>
@@ -293,6 +361,7 @@ export function PrioritiesEditor() {
   const d = data as Priorities;
   return (
     <Section id="priorities" number="07" title="Slide 05 — Strategic priorities">
+      <SlideVisibilityToggle slideIndex={4} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Strategic Priorities" />
       </Row>
@@ -340,6 +409,7 @@ export function OKRsEditor() {
   const d = data as OKRs;
   return (
     <Section id="okrs" number="08" title="Slide 06 — OKRs">
+      <SlideVisibilityToggle slideIndex={5} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Objectives & Key Results" />
       </Row>
@@ -395,6 +465,7 @@ export function RoadmapEditor() {
   const d = data as Roadmap;
   return (
     <Section id="roadmap" number="09" title="Slide 07 — Roadmap">
+      <SlideVisibilityToggle slideIndex={6} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="FY26 Roadmap" />
       </Row>
@@ -486,6 +557,7 @@ export function FinancialsEditor() {
   const d = data as Financials;
   return (
     <Section id="financials" number="10" title="Slide 08 — Financial plan">
+      <SlideVisibilityToggle slideIndex={7} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Financial Plan" />
       </Row>
@@ -581,6 +653,7 @@ export function ResourcesEditor() {
   const d = data as Resources;
   return (
     <Section id="resources" number="11" title="Slide 09 — Resourcing">
+      <SlideVisibilityToggle slideIndex={8} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Resourcing the Plan" />
       </Row>
@@ -642,6 +715,7 @@ export function RisksEditor() {
   const d = data as Risks;
   return (
     <Section id="risks" number="12" title="Slide 10 — Risks">
+      <SlideVisibilityToggle slideIndex={9} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="Risks & Mitigations" />
       </Row>
@@ -689,6 +763,7 @@ export function KPIsEditor() {
   const d = data as KPIs;
   return (
     <Section id="kpis" number="13" title="Slide 11 — KPIs">
+      <SlideVisibilityToggle slideIndex={10} />
       <Row label="Kicker" hint="Section eyebrow above the title.">
         <TextField value={d.kicker} onChange={(v) => set({ kicker: v })} placeholder="KPIs" />
       </Row>
@@ -735,6 +810,7 @@ export function AsksEditor() {
   const d = data as Asks;
   return (
     <Section id="asks" number="14" title="Slide 12 — Asks">
+      <SlideVisibilityToggle slideIndex={11} />
       <Row label="Eyebrow" hint="Top-right tag above the headline.">
         <TextField value={d.eyebrow} onChange={(v) => set({ eyebrow: v })} placeholder="What we need from you" />
       </Row>
